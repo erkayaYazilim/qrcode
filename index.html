@@ -107,8 +107,8 @@
                     alert('Kayıt başarılı!');
 
                     // QR kodu oluştur
-                    const qrData = `${window.location.origin}/user.html?id=${newUserKey}`;
-                    document.getElementById('qrcode').innerHTML = "";
+                    const qrData = `https://erkayayazilim.github.io/qrcode/user.html?id=${newUserKey}`;
+
                     new QRCode(document.getElementById('qrcode'), {
                         text: qrData,
                         width: 256,
