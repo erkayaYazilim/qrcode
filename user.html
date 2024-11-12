@@ -4,35 +4,80 @@
     <meta charset="UTF-8">
     <title>Kullanıcı Bilgileri</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <!-- Stil Dosyası -->
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #4A90E2;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+        }
+        .header i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 2rem;
         }
         .user-info {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .user-info h2 {
+            padding: 30px 20px;
             text-align: center;
-            margin-bottom: 20px;
         }
         .user-info p {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #333;
+        }
+        .user-info span {
+            font-weight: 600;
+            color: #555;
+        }
+        .footer {
+            background-color: #f0f2f5;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
         }
     </style>
 </head>
 <body>
 
-    <div class="user-info">
-        <h2>Kullanıcı Bilgileri</h2>
-        <p><strong>İsim:</strong> <span id="firstName"></span></p>
-        <p><strong>Soy İsim:</strong> <span id="lastName"></span></p>
-        <p><strong>Telefon Numarası:</strong> <span id="phoneNumber"></span></p>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-user-circle"></i>
+            <h2>Kullanıcı Bilgileri</h2>
+        </div>
+        <div class="user-info">
+            <p><strong>İsim:</strong> <span id="firstName">Yükleniyor...</span></p>
+            <p><strong>Soy İsim:</strong> <span id="lastName">Yükleniyor...</span></p>
+            <p><strong>Telefon Numarası:</strong> <span id="phoneNumber">Yükleniyor...</span></p>
+        </div>
+    </div>
+    <div class="footer">
+        © 2023 Emre Erkaya Yazılım Ofisi
     </div>
 
     <!-- Firebase ve Uygulama Kodları -->
@@ -50,27 +95,31 @@
 };
         // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        const database = firebase.database();
 
         // URL'den id parametresini al
         const params = new URLSearchParams(window.location.search);
         const userId = params.get('id');
 
         if (userId) {
-            // Firestore'dan veriyi çek
-            db.collection('users').doc(userId).get()
-            .then((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
+            // Realtime Database'den veriyi çek
+            database.ref('users/' + userId).once('value')
+            .then((snapshot) => {
+                const data = snapshot.val();
+                if (data) {
                     document.getElementById('firstName').textContent = data.firstName;
                     document.getElementById('lastName').textContent = data.lastName;
                     document.getElementById('phoneNumber').textContent = data.phoneNumber;
                 } else {
                     alert('Kullanıcı bulunamadı.');
+                    document.getElementById('firstName').textContent = '---';
+                    document.getElementById('lastName').textContent = '---';
+                    document.getElementById('phoneNumber').textContent = '---';
                 }
             })
             .catch((error) => {
                 console.error('Hata:', error);
+                alert('Veri çekilirken bir hata oluştu.');
             });
         } else {
             alert('Geçersiz QR kodu veya URL.');
