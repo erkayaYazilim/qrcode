@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanıcı Bilgileri</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore-compat.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .user-info {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .user-info h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .user-info p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="user-info">
+        <h2>Kullanıcı Bilgileri</h2>
+        <p><strong>İsim:</strong> <span id="firstName"></span></p>
+        <p><strong>Soy İsim:</strong> <span id="lastName"></span></p>
+        <p><strong>Telefon Numarası:</strong> <span id="phoneNumber"></span></p>
+    </div>
+
+    <!-- Firebase ve Uygulama Kodları -->
+    <script>
+        // Firebase yapılandırması (kendi yapılandırmanızı buraya ekleyin)
+        const firebaseConfig = {
+            apiKey: "API_KEYİNİZ",
+            authDomain: "AUTH_DOMAINİNİZ",
+            projectId: "PROJE_IDİNİZ",
+            // ... diğer yapılandırmalar
+        };
+
+        // Firebase'i Başlat
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // URL'den id parametresini al
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get('id');
+
+        if (userId) {
+            // Firestore'dan veriyi çek
+            db.collection('users').doc(userId).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('firstName').textContent = data.firstName;
+                    document.getElementById('lastName').textContent = data.lastName;
+                    document.getElementById('phoneNumber').textContent = data.phoneNumber;
+                } else {
+                    alert('Kullanıcı bulunamadı.');
+                }
+            })
+            .catch((error) => {
+                console.error('Hata:', error);
+            });
+        } else {
+            alert('Geçersiz QR kodu veya URL.');
+        }
+    </script>
+</body>
+</html>

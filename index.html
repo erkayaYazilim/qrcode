@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Paneli</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            max-width: 400px;
+            margin: 0 auto 15px auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #saveBtn {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        #qrcode {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Paneli</h1>
+    <div>
+        <div class="form-group">
+            <label for="firstName">İsim:</label>
+            <input type="text" id="firstName" placeholder="İsim">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Soy İsim:</label>
+            <input type="text" id="lastName" placeholder="Soy İsim">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Telefon Numarası:</label>
+            <input type="tel" id="phoneNumber" placeholder="05XXXXXXXXX">
+        </div>
+        <button id="saveBtn">Kaydet ve QR Kod Oluştur</button>
+    </div>
+
+    <div id="qrcode"></div>
+
+    <!-- Firebase ve Uygulama Kodları -->
+    <script>
+        // Firebase yapılandırması (kendi yapılandırmanızı buraya ekleyin)
+        const firebaseConfig = {
+  apiKey: "AIzaSyC6AxiB4W4swKVHVjbPpir-oGwtoGJn7pg",
+  authDomain: "barkod-5de5e.firebaseapp.com",
+  databaseURL: "https://barkod-5de5e-default-rtdb.firebaseio.com",
+  projectId: "barkod-5de5e",
+  storageBucket: "barkod-5de5e.firebasestorage.app",
+  messagingSenderId: "436773145974",
+  appId: "1:436773145974:web:b2d5d0e52235d22e327e57",
+  measurementId: "G-HG604CLMC5"
+};
+        // Firebase'i Başlat
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.addEventListener('click', () => {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+
+            if (firstName && lastName && phoneNumber) {
+                // Yeni bir anahtar oluştur
+                const newUserKey = database.ref().child('users').push().key;
+
+                // Veriyi hazırlayın
+                const userData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    phoneNumber: phoneNumber
+                };
+
+                // Veriyi Realtime Database'e ekle
+                const updates = {};
+                updates['/users/' + newUserKey] = userData;
+
+                database.ref().update(updates)
+                .then(() => {
+                    alert('Kayıt başarılı!');
+
+                    // QR kodu oluştur
+                    const qrData = `${window.location.origin}/user.html?id=${newUserKey}`;
+                    document.getElementById('qrcode').innerHTML = "";
+                    new QRCode(document.getElementById('qrcode'), {
+                        text: qrData,
+                        width: 256,
+                        height: 256,
+                    });
+                })
+                .catch((error) => {
+                    console.error('Hata:', error);
+                });
+            } else {
+                alert('Lütfen tüm alanları doldurun.');
+            }
+        });
+    </script>
+</body>
+</html>
