@@ -192,14 +192,11 @@
                     alert('Kayıt başarılı!');
 
                     // QR kodu oluştur
-                    
-
-                    const qrData = `https://erkayayazilim.github.io/qrcode/user.html?id=${newUserKey}`;
-
+                    const qrData = `https://erkayayazilim.github.io/qrcode/product.html?id=${newProductKey}`;
                     const qrcodeElement = document.getElementById('qrcode');
                     qrcodeElement.innerHTML = ''; // Önceki QR kodunu temizle
 
-                    const qrcode = new QRCode(qrcodeElement, {
+                    new QRCode(qrcodeElement, {
                         text: qrData,
                         width: 256,
                         height: 256,
