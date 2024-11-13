@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Kullanıcı Bilgileri</title>
+    <title>Ürün Bilgileri</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
@@ -11,6 +11,7 @@
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
     <!-- Stil Dosyası -->
     <style>
         body {
@@ -20,7 +21,7 @@
             padding: 0;
         }
         .container {
-            max-width: 500px;
+            max-width: 800px;
             margin: 50px auto;
             background-color: #fff;
             border-radius: 12px;
@@ -41,18 +42,62 @@
             margin: 0;
             font-size: 2rem;
         }
-        .user-info {
+        .product-info {
             padding: 30px 20px;
+        }
+        .product-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
             text-align: center;
         }
-        .user-info p {
+        .product-info p {
             font-size: 1.2rem;
             margin: 15px 0;
             color: #333;
         }
-        .user-info span {
+        .product-info span {
             font-weight: 600;
             color: #555;
+        }
+        .product-images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .product-images img {
+            max-width: 100%;
+            max-height: 200px;
+            margin: 10px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .product-features {
+            margin-top: 30px;
+        }
+        .product-features h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .feature-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-item h5 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .feature-item img {
+            max-width: 100%;
+            max-height: 150px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            object-fit: cover;
         }
         .footer {
             background-color: #f0f2f5;
@@ -67,13 +112,19 @@
 
     <div class="container">
         <div class="header">
-            <i class="fas fa-user-circle"></i>
-            <h2>Kullanıcı Bilgileri</h2>
+            <i class="fas fa-box-open"></i>
+            <h2>Ürün Bilgileri</h2>
         </div>
-        <div class="user-info">
-            <p><strong>İsim:</strong> <span id="firstName">Yükleniyor...</span></p>
-            <p><strong>Soy İsim:</strong> <span id="lastName">Yükleniyor...</span></p>
-            <p><strong>Telefon Numarası:</strong> <span id="phoneNumber">Yükleniyor...</span></p>
+        <div class="product-info">
+            <h3 id="productName">Yükleniyor...</h3>
+            <div class="product-images" id="productImages">
+                <!-- Ürün resimleri buraya eklenecek -->
+            </div>
+            <p><strong>Fiyat:</strong> <span id="productPrice">Yükleniyor...</span></p>
+            <p><strong>Açıklama:</strong> <span id="productDescription">Yükleniyor...</span></p>
+            <div class="product-features" id="productFeatures">
+                <!-- Ürün özellikleri buraya eklenecek -->
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -84,37 +135,83 @@
     <script>
         // Firebase yapılandırması (kendi yapılandırmanızı buraya ekleyin)
         const firebaseConfig = {
-  apiKey: "AIzaSyC6AxiB4W4swKVHVjbPpir-oGwtoGJn7pg",
-  authDomain: "barkod-5de5e.firebaseapp.com",
-  databaseURL: "https://barkod-5de5e-default-rtdb.firebaseio.com",
-  projectId: "barkod-5de5e",
-  storageBucket: "barkod-5de5e.firebasestorage.app",
-  messagingSenderId: "436773145974",
-  appId: "1:436773145974:web:b2d5d0e52235d22e327e57",
-  measurementId: "G-HG604CLMC5"
-};
+            apiKey: "API_KEYİNİZ",
+            authDomain: "AUTH_DOMAINİNİZ",
+            databaseURL: "DATABASE_URL'İNİZ",
+            projectId: "PROJECT_ID'NİZ",
+            storageBucket: "STORAGE_BUCKET'INIZ",
+            messagingSenderId: "MESSAGING_SENDER_ID'NİZ",
+            appId: "APP_ID'NİZ",
+            measurementId: "MEASUREMENT_ID'NİZ"
+        };
         // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        const storage = firebase.storage();
 
         // URL'den id parametresini al
         const params = new URLSearchParams(window.location.search);
-        const userId = params.get('id');
+        const productId = params.get('id');
 
-        if (userId) {
+        if (productId) {
             // Realtime Database'den veriyi çek
-            database.ref('users/' + userId).once('value')
-            .then((snapshot) => {
+            database.ref('products/' + productId).once('value')
+            .then(async (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    document.getElementById('firstName').textContent = data.firstName;
-                    document.getElementById('lastName').textContent = data.lastName;
-                    document.getElementById('phoneNumber').textContent = data.phoneNumber;
+                    document.getElementById('productName').textContent = data.productName;
+                    document.getElementById('productPrice').textContent = data.productPrice;
+                    document.getElementById('productDescription').textContent = data.productDescription;
+
+                    // Ürün resimlerini göster
+                    const productImagesDiv = document.getElementById('productImages');
+                    if (data.images && data.images.length > 0) {
+                        for (let i = 0; i < data.images.length; i++) {
+                            const imgUrl = data.images[i];
+                            const imgElement = document.createElement('img');
+                            imgElement.src = imgUrl;
+                            productImagesDiv.appendChild(imgElement);
+                        }
+                    }
+
+                    // Ürün özelliklerini göster
+                    const productFeaturesDiv = document.getElementById('productFeatures');
+                    if (data.features && data.features.length > 0) {
+                        const featuresTitle = document.createElement('h4');
+                        featuresTitle.textContent = 'Ürün Özellikleri';
+                        productFeaturesDiv.appendChild(featuresTitle);
+
+                        for (let i = 0; i < data.features.length; i++) {
+                            const feature = data.features[i];
+                            const featureDiv = document.createElement('div');
+                            featureDiv.classList.add('feature-item');
+
+                            if (feature.category) {
+                                const featureTitle = document.createElement('h5');
+                                featureTitle.textContent = feature.category;
+                                featureDiv.appendChild(featureTitle);
+                            }
+
+                            if (feature.image) {
+                                const featureImg = document.createElement('img');
+                                featureImg.src = feature.image;
+                                featureDiv.appendChild(featureImg);
+                            }
+
+                            if (feature.description) {
+                                const featureDesc = document.createElement('p');
+                                featureDesc.textContent = feature.description;
+                                featureDiv.appendChild(featureDesc);
+                            }
+
+                            productFeaturesDiv.appendChild(featureDiv);
+                        }
+                    }
                 } else {
-                    alert('Kullanıcı bulunamadı.');
-                    document.getElementById('firstName').textContent = '---';
-                    document.getElementById('lastName').textContent = '---';
-                    document.getElementById('phoneNumber').textContent = '---';
+                    alert('Ürün bulunamadı.');
+                    document.getElementById('productName').textContent = '---';
+                    document.getElementById('productPrice').textContent = '---';
+                    document.getElementById('productDescription').textContent = '---';
                 }
             })
             .catch((error) => {
