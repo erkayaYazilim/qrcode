@@ -17,13 +17,32 @@
             background-color: #f8f9fa;
             color: #343a40;
         }
+        .header {
+            background-color: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
         .logo {
             max-height: 50px;
         }
+        .contact-info {
+            font-size: 0.9rem;
+            color: #555;
+            text-align: right;
+        }
         .carousel-item img {
-            max-height: 500px;
+            max-height: 300px; /* Resimleri daha küçük yaptık */
             object-fit: cover;
             width: 100%;
+            cursor: pointer; /* Tıklanabilir olduğunu belirtmek için */
         }
         .product-details h1 {
             font-size: 2rem;
@@ -60,29 +79,24 @@
             margin-top: 40px;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
         }
-        .contact-info {
-            font-size: 0.9rem;
-            color: #555;
+        /* Modal için stil */
+        .modal-img {
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="tatarlı.jpg" alt="Emek Yapı Logo" class="logo">
-            </a>
-            <div class="d-none d-lg-block contact-info">
-                <span class="me-3"><i class="fas fa-phone-alt"></i> +90 123 456 78 90</span>
-                <span><i class="fas fa-envelope"></i> info@emekyapi.com</span>
+    <!-- Header Bölümü -->
+    <header class="header">
+        <div class="header-container">
+            <img src="tatarlı.jpg" alt="Emek Yapı Logo" class="logo">
+            <div class="contact-info">
+                <p><i class="fas fa-phone-alt"></i> +90 123 456 78 90</p>
+                <p><i class="fas fa-envelope"></i> info@emekyapi.com</p>
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
-    </nav>
+    </header>
 
     <!-- Ana İçerik -->
     <div class="container my-5">
@@ -93,6 +107,7 @@
                     <div class="carousel-inner" id="carouselInner">
                         <!-- Dinamik olarak resimler eklenecek -->
                     </div>
+                    <!-- Carousel Kontrolleri (Tek resim varsa gizlenecek) -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
                         <span class="visually-hidden">Önceki</span>
@@ -126,13 +141,20 @@
                         <a href="#" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
                         <a href="#" title="LinkedIn'de Paylaş"><i class="fab fa-linkedin"></i></a>
                     </div>
-                    <!-- Satın Al Butonu -->
-                    <div class="text-center mt-4">
-                        <a href="#" class="btn btn-primary btn-lg">Satın Al</a>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <img src="" alt="Büyük Resim" class="modal-img w-100" id="modalImage">
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Footer Bölümü -->
@@ -185,6 +207,9 @@
 
                     // Resimleri ekle
                     const carouselInner = document.getElementById('carouselInner');
+                    const prevButton = document.querySelector('.carousel-control-prev');
+                    const nextButton = document.querySelector('.carousel-control-next');
+
                     if (data.images && data.images.length > 0) {
                         data.images.forEach((imgUrl, index) => {
                             const carouselItem = document.createElement('div');
@@ -196,9 +221,24 @@
                             imgElement.src = imgUrl;
                             imgElement.alt = data.productName;
                             imgElement.className = 'd-block w-100';
+                            imgElement.addEventListener('click', function() {
+                                // Modal'da resmi göster
+                                document.getElementById('modalImage').src = imgUrl;
+                                const myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+                                myModal.show();
+                            });
                             carouselItem.appendChild(imgElement);
                             carouselInner.appendChild(carouselItem);
                         });
+
+                        // Eğer tek resim varsa, kontrol butonlarını gizle
+                        if (data.images.length === 1) {
+                            prevButton.style.display = 'none';
+                            nextButton.style.display = 'none';
+                        }
+                    } else {
+                        alert('Ürün resmi bulunamadı.');
+                        // Carousel'i gizleyebilirsiniz
                     }
 
                     // Özellikleri ekle
