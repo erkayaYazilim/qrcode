@@ -82,19 +82,19 @@
         .carousel-buttons {
             position: absolute;
             top: 50%;
-            width: calc(100% - 40px);
+            width: calc(100% - 0px );
             display: flex;
             justify-content: space-between;
             transform: translateY(-50%);
-            padding: 0 20px;
+            padding: 0 0px;
         }
         .carousel-buttons button {
             background-color: rgba(255,255,255,0.7);
             border: none;
-            color: #333;
-            font-size: 2rem;
+            color: #000000;
+            font-size: 1rem;
             cursor: pointer;
-            padding: 10px 15px;
+            padding: 10px 10px;
             border-radius: 50%;
             transition: background-color 0.3s;
         }
@@ -176,6 +176,20 @@
         .social-share a:hover {
             color: #e74c3c;
         }
+
+        .footer {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 40px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        .footer a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
         /* Responsive Tasarım */
         @media (max-width: 768px) {
             .header-container {
@@ -255,6 +269,11 @@
         </div>
     </div>
 
+    <footer class="footer">
+        <p>© 2023 Emek Yapı. Tüm hakları saklıdır.</p>
+        <p><a href="#">Gizlilik Politikası</a> | <a href="#">Kullanım Şartları</a></p>
+    </footer>
+
     <!-- Firebase ve JavaScript Kodları -->
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
@@ -289,7 +308,7 @@
                     document.getElementById('productName').textContent = data.productName;
 
                     // Fiyat
-                    document.getElementById('productPrice').textContent = 'Fiyat: ' + data.productPrice + ' TL';
+                    document.getElementById('productPrice').textContent = data.productPrice + ' TL';
 
                     // Açıklama
                     document.getElementById('productDescription').textContent = data.productDescription;
