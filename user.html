@@ -4,106 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ürün Bilgileri</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <!-- Font Awesome (Sosyal medya ve ikonlar için) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <!-- Stil Dosyası -->
+    <!-- Özel Stil Dosyası -->
     <style>
-        /* Genel Ayarlar */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            line-height: 1.6;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        /* Header */
-        .header {
-            background-color: #fff;
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            background-color: #f8f9fa;
+            color: #343a40;
         }
         .logo {
-            width: 150px;
-            height: auto;
+            max-height: 50px;
         }
-        .contact-info {
-            text-align: right;
-            font-size: 0.9rem;
-            color: #555;
-        }
-        .contact-info p {
-            margin-bottom: 5px;
-        }
-        /* Ana İçerik */
-        .main-content {
-            max-width: 1000px;
-            margin: 40px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        /* Carousel */
-        .carousel-container {
-            position: relative;
+        .carousel-item img {
+            max-height: 500px;
+            object-fit: cover;
             width: 100%;
-            overflow: hidden;
-            max-height: 500px; /* Maksimum yüksekliği ayarlayabilirsiniz */
-        }
-        .carousel {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .carousel img {
-            width: 100%;
-            height: auto;
-            flex-shrink: 0;
-        }
-        .carousel-buttons {
-            position: absolute;
-            top: 50%;
-            width: calc(100% - 0px );
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0 0px;
-        }
-        .carousel-buttons button {
-            background-color: rgba(255,255,255,0.7);
-            border: none;
-            color: #000000;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 10px 10px;
-            border-radius: 50%;
-            transition: background-color 0.3s;
-        }
-        .carousel-buttons button:hover {
-            background-color: rgba(255,255,255,0.9);
-        }
-        /* Ürün Detayları */
-        .product-details {
-            padding: 20px;
         }
         .product-details h1 {
             font-size: 2rem;
@@ -114,58 +34,13 @@
         }
         .price {
             font-size: 1.8rem;
-            color: #e74c3c;
+            color: #dc3545;
             margin-bottom: 30px;
             font-weight: 600;
             text-align: center;
-        }
-        .features {
-            margin-bottom: 30px;
-        }
-        .features h3 {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            color: #333;
-        }
-        .features table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .features th, .features td {
-            padding: 15px;
-            font-size: 1rem;
-            text-align: left;
         }
         .features th {
-            background-color: #f7f7f7;
-            color: #555;
             width: 40%;
-            font-weight: 600;
-        }
-        .features td {
-            background-color: #fff;
-            color: #333;
-        }
-        .features tr {
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .features tr:last-child {
-            border-bottom: none;
-        }
-        .description {
-            line-height: 1.8;
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 20px;
-        }
-        /* Sosyal Medya Paylaşım Butonları */
-        .social-share {
-            margin-top: 30px;
-            text-align: center;
-            padding-bottom: 20px;
         }
         .social-share a {
             margin: 0 10px;
@@ -174,9 +49,8 @@
             transition: color 0.3s;
         }
         .social-share a:hover {
-            color: #e74c3c;
+            color: #0d6efd;
         }
-
         .footer {
             background-color: #fff;
             padding: 20px;
@@ -186,94 +60,89 @@
             margin-top: 40px;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
         }
-        .footer a {
-            color: #e74c3c;
-            text-decoration: none;
-        }
-        /* Responsive Tasarım */
-        @media (max-width: 768px) {
-            .header-container {
-                /* flex-direction: column; */ /* Bu satırı kaldırıyoruz ki mobilde de yan yana kalsın */
-                align-items: center; /* Merkezde hizalama */
-            }
-            .logo {
-                width: 120px;
-            }
-            .product-details h1 {
-                font-size: 1.8rem;
-            }
-            .price {
-                font-size: 1.6rem;
-            }
-            .features h3 {
-                font-size: 1.3rem;
-            }
-            .features th, .features td {
-                padding: 10px;
-                font-size: 0.9rem;
-            }
-            .social-share a {
-                font-size: 1.5rem;
-            }
+        .contact-info {
+            font-size: 0.9rem;
+            color: #555;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Bölümü -->
-    <header class="header">
-        <div class="header-container">
-            <img src="tatarlı.jpg" alt="Emek Yapı Logo" class="logo">
-            <div class="contact-info">
-                <p><i class="fas fa-phone-alt"></i> +90 123 456 78 90</p>
-                <p><i class="fas fa-envelope"></i> info@emekyapi.com</p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="tatarlı.jpg" alt="Emek Yapı Logo" class="logo">
+            </a>
+            <div class="d-none d-lg-block contact-info">
+                <span class="me-3"><i class="fas fa-phone-alt"></i> +90 123 456 78 90</span>
+                <span><i class="fas fa-envelope"></i> info@emekyapi.com</span>
             </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
-    </header>
+    </nav>
 
     <!-- Ana İçerik -->
-    <div class="main-content">
-
-        <!-- Carousel Bölümü -->
-        <div class="carousel-container">
-            <div class="carousel" id="carousel">
-                <!-- Dinamik olarak resimler eklenecek -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Carousel Bölümü -->
+            <div class="col-md-6">
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="carouselInner">
+                        <!-- Dinamik olarak resimler eklenecek -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                        <span class="visually-hidden">Önceki</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                        <span class="visually-hidden">Sonraki</span>
+                    </button>
+                </div>
             </div>
-            <!-- Carousel Butonları -->
-            <div class="carousel-buttons">
-                <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
-                <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-
-        <!-- Ürün Detayları Bölümü -->
-        <div class="product-details">
-            <h1 id="productName">Ürün Adı Yükleniyor...</h1>
-            <div class="price" id="productPrice">Fiyat Yükleniyor...</div>
-            <div class="features" id="productFeatures">
-                <h3>Ürün Özellikleri</h3>
-                <table id="featuresTable">
-                    <!-- Dinamik olarak özellikler eklenecek -->
-                </table>
-            </div>
-            <div class="description" id="productDescription">
-                Açıklama Yükleniyor...
-            </div>
-            <!-- Sosyal Medya Paylaşım Butonları -->
-            <div class="social-share">
-                <a href="#" title="Facebook'ta Paylaş"><i class="fab fa-facebook-square"></i></a>
-                <a href="#" title="Twitter'da Paylaş"><i class="fab fa-twitter-square"></i></a>
-                <a href="#" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
-                <a href="#" title="LinkedIn'de Paylaş"><i class="fab fa-linkedin"></i></a>
+            <!-- Ürün Detayları Bölümü -->
+            <div class="col-md-6">
+                <div class="product-details">
+                    <h1 id="productName">Ürün Adı Yükleniyor...</h1>
+                    <div class="price" id="productPrice">Fiyat Yükleniyor...</div>
+                    <div class="features" id="productFeatures">
+                        <h3>Ürün Özellikleri</h3>
+                        <table class="table">
+                            <tbody id="featuresTable">
+                                <!-- Dinamik olarak özellikler eklenecek -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="description" id="productDescription">
+                        Açıklama Yükleniyor...
+                    </div>
+                    <!-- Sosyal Medya Paylaşım Butonları -->
+                    <div class="social-share text-center">
+                        <a href="#" title="Facebook'ta Paylaş"><i class="fab fa-facebook-square"></i></a>
+                        <a href="#" title="Twitter'da Paylaş"><i class="fab fa-twitter-square"></i></a>
+                        <a href="#" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
+                        <a href="#" title="LinkedIn'de Paylaş"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <!-- Satın Al Butonu -->
+                    <div class="text-center mt-4">
+                        <a href="#" class="btn btn-primary btn-lg">Satın Al</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer Bölümü -->
     <footer class="footer">
         <p>© 2023 Emek Yapı. Tüm hakları saklıdır.</p>
         <p><a href="#">Gizlilik Politikası</a> | <a href="#">Kullanım Şartları</a></p>
     </footer>
 
+    <!-- Bootstrap JS ve Bağımlılıkları -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Firebase ve JavaScript Kodları -->
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
@@ -290,6 +159,7 @@
     appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
     measurementId: "G-0LY6WH95VM"
   };
+
         // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -314,13 +184,20 @@
                     document.getElementById('productDescription').textContent = data.productDescription;
 
                     // Resimleri ekle
-                    const carousel = document.getElementById('carousel');
+                    const carouselInner = document.getElementById('carouselInner');
                     if (data.images && data.images.length > 0) {
-                        data.images.forEach((imgUrl) => {
+                        data.images.forEach((imgUrl, index) => {
+                            const carouselItem = document.createElement('div');
+                            carouselItem.className = 'carousel-item';
+                            if (index === 0) {
+                                carouselItem.classList.add('active');
+                            }
                             const imgElement = document.createElement('img');
                             imgElement.src = imgUrl;
                             imgElement.alt = data.productName;
-                            carousel.appendChild(imgElement);
+                            imgElement.className = 'd-block w-100';
+                            carouselItem.appendChild(imgElement);
+                            carouselInner.appendChild(carouselItem);
                         });
                     }
 
@@ -342,9 +219,6 @@
                         });
                     }
 
-                    // Carousel fonksiyonlarını yeniden tanımla
-                    initializeCarousel();
-
                 } else {
                     alert('Ürün bulunamadı.');
                 }
@@ -355,32 +229,6 @@
             });
         } else {
             alert('Geçersiz QR kodu veya URL.');
-        }
-
-        // Carousel Fonksiyonları
-        function initializeCarousel() {
-            const carousel = document.getElementById('carousel');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            let index = 0;
-
-            nextBtn.addEventListener('click', () => {
-                if (index < carousel.children.length - 1) {
-                    index++;
-                } else {
-                    index = 0; // Döngüsel geçiş için
-                }
-                carousel.style.transform = 'translateX(' + (-index * 100) + '%)';
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (index > 0) {
-                    index--;
-                } else {
-                    index = carousel.children.length - 1; // Döngüsel geçiş için
-                }
-                carousel.style.transform = 'translateX(' + (-index * 100) + '%)';
-            });
         }
     </script>
 
