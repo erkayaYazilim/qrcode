@@ -22,7 +22,6 @@
             background-color: #f8f9fa;
             padding: 10px 20px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            border-bottom: 2px solid #e0e0e0;
             position: relative;
             z-index: 100;
         }
@@ -57,7 +56,7 @@
         }
         .divider {
             border-bottom: 1px solid #ccc;
-            margin-bottom: 20px;
+            margin-bottom: 0; /* Divider ile header bitişik olsun */
         }
         .carousel-item img {
             max-height: 250px;
@@ -65,9 +64,9 @@
             width: 100%;
             cursor: pointer;
         }
-        .product-details h1 {
+        .product-name {
             font-size: 1.5rem;
-            margin-bottom: 15px;
+            margin: 20px 0 15px 0;
             font-weight: 600;
             text-align: center;
             color: #333;
@@ -92,6 +91,15 @@
         .description {
             margin-bottom: 20px;
             font-size: 0.9rem;
+            text-align: left; /* Solda hizalı */
+            background-color: #f1f1f1; /* Arka plan rengi değiştirildi */
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .description h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
         .social-share a {
             margin: 0 5px;
@@ -139,6 +147,13 @@
 
     <!-- Ana İçerik -->
     <div class="container my-4">
+        <!-- Ürün Adı -->
+        <div class="row">
+            <div class="col-12">
+                <h1 id="productName" class="product-name">Ürün Adı Yükleniyor...</h1>
+            </div>
+        </div>
+
         <!-- Ürün Resmi -->
         <div class="row">
             <div class="col-12">
@@ -184,7 +199,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="description" id="productDescription">
-                    Açıklama Yükleniyor...
+                    <!-- Ürün Açıklaması Başlığı -->
+                    <h3>Ürün Açıklaması</h3>
+                    <!-- Açıklama Metni -->
+                    <p id="descriptionText">Açıklama Yükleniyor...</p>
                 </div>
             </div>
         </div>
@@ -230,16 +248,17 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script>
         // Firebase yapılandırması
-        const firebaseConfig = {
-            apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
-            authDomain: "whatsapp-156a6.firebaseapp.com",
-            databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
-            projectId: "whatsapp-156a6",
-            storageBucket: "whatsapp-156a6.appspot.com",
-            messagingSenderId: "236478826016",
-            appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
-            measurementId: "G-0LY6WH95VM"
-        };
+// Firebase yapılandırması
+const firebaseConfig = {
+    apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
+    authDomain: "whatsapp-156a6.firebaseapp.com",
+    databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
+    projectId: "whatsapp-156a6",
+    storageBucket: "whatsapp-156a6.appspot.com",
+    messagingSenderId: "236478826016",
+    appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
+    measurementId: "G-0LY6WH95VM"
+  };
 
         // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
@@ -257,11 +276,13 @@
                 if (data) {
                     // Ürün Adı
                     document.title = data.productName + ' - Ürün Bilgileri'; // Sayfa başlığını güncelle
+                    document.getElementById('productName').textContent = data.productName;
+
                     // Fiyat
                     document.getElementById('productPrice').textContent = data.productPrice + ' TL';
 
                     // Açıklama
-                    document.getElementById('productDescription').textContent = data.productDescription;
+                    document.getElementById('descriptionText').textContent = data.productDescription;
 
                     // Resimleri ekle
                     const carouselInner = document.getElementById('carouselInner');
