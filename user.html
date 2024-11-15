@@ -18,26 +18,54 @@
             color: #343a40;
         }
         .header {
-            background-color: #fff;
-            padding: 15px 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .logo {
-            max-height: 50px;
-        }
-        .contact-info {
-            font-size: 0.9rem;
-            color: #555;
-            text-align: right;
-        }
+    background-color: #f8f9fa; /* Daha açık ve yumuşak bir renk */
+    padding: 20px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-bottom: 2px solid #e0e0e0; /* Alt çizgi */
+    position: relative;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    max-height: 100px; /* Biraz daha küçük bir logo yüksekliği */
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05); /* Hover efektiyle hafif büyüme */
+}
+
+.contact-info {
+    font-size: 1rem;
+    color: #333; /* Daha belirgin renk */
+    text-align: right;
+    line-height: 1.4;
+    font-weight: 500; /* Biraz daha kalın */
+}
+
+.header-container .button {
+    background-color: #007bff; /* Dikkat çekici bir mavi */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.header-container .button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
         .carousel-item img {
             max-height: 300px; /* Resimleri daha küçük yaptık */
             object-fit: cover;
@@ -90,7 +118,7 @@
     <!-- Header Bölümü -->
     <header class="header">
         <div class="header-container">
-            <img src="tatarlı.jpg" alt="Emek Yapı Logo" class="logo">
+            <img src="tatarlilogo2.png" alt="Emek Yapı Logo" class="logo">
             <div class="contact-info">
                 <p><i class="fas fa-phone-alt"></i> +90 123 456 78 90</p>
                 <p><i class="fas fa-envelope"></i> info@emekyapi.com</p>
@@ -159,8 +187,8 @@
 
     <!-- Footer Bölümü -->
     <footer class="footer">
-        <p>© 2023 Emek Yapı. Tüm hakları saklıdır.</p>
-        <p><a href="#">Gizlilik Politikası</a> | <a href="#">Kullanım Şartları</a></p>
+        <p>© 2024 Tatarlı Seramik. Tüm hakları saklıdır.</p>
+        
     </footer>
 
     <!-- Bootstrap JS ve Bağımlılıkları -->
