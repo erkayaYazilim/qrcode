@@ -12,126 +12,168 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <!-- Özel Stil Dosyası -->
     <style>
+        /* Ana body etiketi için genel stil ayarları */
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            font-size: 0.9rem;
+            font-family: 'Montserrat', sans-serif; /* Yazı tipi 'Montserrat' olarak ayarlandı */
+            background-color: #f8f9fa; /* Arka plan rengi açık gri */
+            color: #343a40; /* Metin rengi koyu gri */
+            font-size: 0.9rem; /* Varsayılan yazı boyutu */
         }
+    
+        /* Header (üst bilgi) alanı için stil */
         .header {
-            background-color: #f8f9fa;
-            padding: 10px 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            position: relative;
-            z-index: 100;
+            background-color: #f8f9fa; /* Arka plan rengi açık gri */
+            padding: 10px 20px; /* Üst ve alt 10px, sağ ve sol 20px boşluk */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Alt gölge efekti */
+            position: relative; /* Göreceli konumlandırma */
+            z-index: 100; /* Z-index ile katman önceliği */
         }
+    
+        /* Header içindeki ana konteyner */
         .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            max-width: 1200px; /* Maksimum genişlik */
+            margin: 0 auto; /* Ortalanmış */
+            display: flex; /* Flexbox kullanılarak düzenleme */
+            align-items: center; /* Dikey hizalama */
+            justify-content: space-between; /* Elemanlar arasındaki boşluklar */
         }
+    
+        /* Logo resmi için stil */
         .logo {
-            max-height: 70px;
-            transition: transform 0.3s ease;
+            max-height: 70px; /* Maksimum yükseklik */
+            transition: transform 0.3s ease; /* Geçiş efekti */
         }
+    
+        /* Logo hover (fare ile üzerine gelince) efekti */
         .logo:hover {
-            transform: scale(1.05);
+            transform: scale(1.05); /* Hafif büyütme efekti */
         }
+    
+        /* Şirket adı için stil */
         .company-name {
-            font-size: 1rem;
-            color: #333;
-            font-weight: 600;
-            margin: 0;
-            text-align: right;
+            font-size: 0.8rem; /* Yazı boyutu */
+            color: #333; /* Metin rengi koyu gri */
+            font-weight: 600; /* Yazı kalınlığı */
+            margin: 0; /* Margin (boşluk) yok */
+            text-align: right; /* Metin sağa hizalı */
         }
+    
+        /* Mobil cihazlar için (768px ve altı) özel stil */
         @media (max-width: 767.98px) {
             .header-container {
-                flex-direction: row;
+                flex-direction: row; /* Elemanların yatay sıraya geçmesi */
             }
             .company-name {
-                font-size: 0.9rem;
+                font-size: 0.9rem; /* Daha küçük yazı boyutu */
             }
         }
+    
+        /* Header altındaki çizgi */
         .divider {
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 0; /* Divider ile header bitişik olsun */
+            border-bottom: 1px solid #ccc; /* Alt çizgi rengi ve kalınlığı */
+            margin-bottom: 0; /* Header ile bitişik */
         }
+    
+        /* Carousel (slayt gösterisi) içindeki resimlerin stili */
         .carousel-item img {
-            max-height: 250px;
-            object-fit: cover;
-            width: 100%;
-            cursor: pointer;
+            max-height: 250px; /* Maksimum yükseklik */
+            object-fit: cover; /* Resmin alanı kaplamasını sağlar */
+            width: 100%; /* Genişlik tam olarak kapsar */
+            cursor: pointer; /* İmleç değişir (tıklanabilir) */
         }
+    
+        /* Ürün adı için stil */
         .product-name {
-            font-size: 1.5rem;
-            margin: 20px 0 15px 0;
-            font-weight: 600;
-            text-align: center;
-            color: #333;
+            font-size: 1.5rem; /* Yazı boyutu */
+            margin: 5px 0 10px 0; /* Üst 20px, alt 15px boşluk */
+            font-weight: 600; /* Yazı kalınlığı */
+            text-align: center; /* Metin ortalanmış */
+            color: #333; /* Koyu gri renk */
         }
+    
+        /* Fiyat alanı için stil */
         .price {
-            font-size: 1.5rem;
-            color: #000;
-            margin-bottom: 20px;
-            font-weight: 600;
-            text-align: center;
+            font-size: 1.5rem; /* Yazı boyutu */
+            color: #000; /* Siyah renk */
+            margin-bottom: 20px; /* Alt boşluk */
+            font-weight: 600; /* Yazı kalınlığı */
+            text-align: center; /* Metin ortalanmış */
         }
+    
+        /* Ürün özellikleri tablosu için stil */
         .features {
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Alt boşluk */
         }
+    
+        /* Ürün özellikleri tablosundaki başlık hücreleri */
         .features th {
-            width: 40%;
-            font-size: 0.9rem;
+            width: 40%; /* Hücre genişliği */
+            font-size: 0.9rem; /* Yazı boyutu */
         }
+    
+        /* Ürün özellikleri tablosundaki veri hücreleri */
         .features td {
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* Yazı boyutu */
         }
+    
+        /* Ürün açıklaması için stil */
         .description {
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            text-align: left; /* Solda hizalı */
-            background-color: #f1f1f1; /* Arka plan rengi değiştirildi */
-            padding: 15px;
-            border-radius: 5px;
+            margin-bottom: 20px; /* Alt boşluk */
+            font-size: 0.9rem; /* Yazı boyutu */
+            text-align: left; /* Metin sola hizalı */
+            background-color: #f1f1f1; /* Açık gri arka plan rengi */
+            padding: 15px; /* İç boşluk */
+            border-radius: 5px; /* Kenar yuvarlama */
         }
+    
+        /* Ürün açıklaması başlığı için stil */
         .description h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-size: 1rem; /* Başlık yazı boyutu */
+            font-weight: 600; /* Yazı kalınlığı */
+            margin-bottom: 10px; /* Alt boşluk */
         }
+    
+        /* Sosyal medya paylaşım butonları için stil */
         .social-share a {
-            margin: 0 5px;
-            font-size: 1.5rem;
-            color: #555;
-            transition: color 0.3s;
+            margin: 0 5px; /* Sağ ve sol boşluk */
+            font-size: 1.5rem; /* İkon boyutu */
+            color: #000000; /* İkon rengi */
+            transition: color 0.3s; /* Renk değişimi efekti */
         }
+    
+        /* Sosyal medya butonları hover (fare ile üzerine gelince) efekti */
         .social-share a:hover {
-            color: #0d6efd;
+            color: #0d6efd; /* Mavi renk */
         }
+    
+        /* Footer (alt bilgi) alanı için stil */
         .footer {
-            background-color: #fff;
-            padding: 15px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #777;
-            margin-top: 20px;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+            background-color: #fff; /* Beyaz arka plan */
+            padding: 15px; /* İç boşluk */
+            text-align: center; /* Metin ortalanmış */
+            font-size: 0.8rem; /* Yazı boyutu */
+            color: #777; /* Metin rengi (gri) */
+            margin-top: 20px; /* Üst boşluk */
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1); /* Üst gölge efekti */
         }
-        /* Modal için stil */
+    
+        /* Modal içindeki resmin stil ayarları */
         .modal-img {
-            width: 100%;
+            width: 100%; /* Tam genişlik */
         }
+    
         /* Footer içindeki iletişim bilgileri */
         .footer .contact-info {
-            margin-top: 10px;
-            font-size: 0.8rem;
+            margin-top: 10px; /* Üst boşluk */
+            font-size: 0.8rem; /* Yazı boyutu */
         }
+    
+        /* Footer içindeki iletişim bilgilerinin metin boşlukları */
         .footer .contact-info p {
-            margin: 0;
+            margin: 0; /* Boşluk yok */
         }
     </style>
+    
 </head>
 <body>
 
