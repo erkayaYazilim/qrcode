@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <!-- Font Awesome (Sosyal medya ve ikonlar için) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <!-- Özel Stil Dosyası -->
@@ -16,82 +16,86 @@
             font-family: 'Montserrat', sans-serif;
             background-color: #f8f9fa;
             color: #343a40;
+            font-size: 0.9rem;
         }
         .header {
-    background-color: #f8f9fa; /* Daha açık ve yumuşak bir renk */
-    padding: 20px 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-bottom: 2px solid #e0e0e0; /* Alt çizgi */
-    position: relative;
-    z-index: 100;
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    max-height: 100px; /* Biraz daha küçük bir logo yüksekliği */
-    transition: transform 0.3s ease;
-}
-
-.logo:hover {
-    transform: scale(1.05); /* Hover efektiyle hafif büyüme */
-}
-
-.contact-info {
-    font-size: 1rem;
-    color: #333; /* Daha belirgin renk */
-    text-align: right;
-    line-height: 1.4;
-    font-weight: 500; /* Biraz daha kalın */
-}
-
-.header-container .button {
-    background-color: #007bff; /* Dikkat çekici bir mavi */
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.header-container .button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-}
-
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-bottom: 2px solid #e0e0e0;
+            position: relative;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            max-height: 70px;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        .company-name {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 600;
+            margin: 0;
+            text-align: right;
+        }
+        @media (max-width: 767.98px) {
+            .header-container {
+                flex-direction: row;
+            }
+            .company-name {
+                font-size: 0.9rem;
+            }
+        }
+        .divider {
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
         .carousel-item img {
-            max-height: 300px; /* Resimleri daha küçük yaptık */
+            max-height: 250px;
             object-fit: cover;
             width: 100%;
-            cursor: pointer; /* Tıklanabilir olduğunu belirtmek için */
+            cursor: pointer;
         }
         .product-details h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             font-weight: 600;
             text-align: center;
             color: #333;
         }
         .price {
-            font-size: 1.8rem;
-            color: #dc3545;
-            margin-bottom: 30px;
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 20px;
             font-weight: 600;
             text-align: center;
         }
+        .features {
+            margin-bottom: 20px;
+        }
         .features th {
             width: 40%;
+            font-size: 0.9rem;
+        }
+        .features td {
+            font-size: 0.9rem;
+        }
+        .description {
+            margin-bottom: 20px;
+            font-size: 0.9rem;
         }
         .social-share a {
-            margin: 0 10px;
-            font-size: 1.8rem;
+            margin: 0 5px;
+            font-size: 1.5rem;
             color: #555;
             transition: color 0.3s;
         }
@@ -100,16 +104,24 @@
         }
         .footer {
             background-color: #fff;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #777;
-            margin-top: 40px;
+            margin-top: 20px;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
         }
         /* Modal için stil */
         .modal-img {
             width: 100%;
+        }
+        /* Footer içindeki iletişim bilgileri */
+        .footer .contact-info {
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+        .footer .contact-info p {
+            margin: 0;
         }
     </style>
 </head>
@@ -118,19 +130,18 @@
     <!-- Header Bölümü -->
     <header class="header">
         <div class="header-container">
-            <img src="tatarlilogo2.png" alt="Emek Yapı Logo" class="logo">
-            <div class="contact-info">
-                <p><i class="fas fa-phone-alt"></i> +90 123 456 78 90</p>
-                <p><i class="fas fa-envelope"></i> info@emekyapi.com</p>
-            </div>
+            <img src="tatarlilogo2.png" alt="Tatarlı Seramik Logo" class="logo">
+            <p class="company-name">Tatarlı Seramik Malzemeleri Ltd Şti</p>
         </div>
+        <!-- Header alt çizgisi -->
+        <div class="divider"></div>
     </header>
 
     <!-- Ana İçerik -->
-    <div class="container my-5">
+    <div class="container my-4">
+        <!-- Ürün Resmi -->
         <div class="row">
-            <!-- Carousel Bölümü -->
-            <div class="col-md-6">
+            <div class="col-12">
                 <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner" id="carouselInner">
                         <!-- Dinamik olarak resimler eklenecek -->
@@ -146,29 +157,46 @@
                     </button>
                 </div>
             </div>
-            <!-- Ürün Detayları Bölümü -->
-            <div class="col-md-6">
-                <div class="product-details">
-                    <h1 id="productName">Ürün Adı Yükleniyor...</h1>
-                    <div class="price" id="productPrice">Fiyat Yükleniyor...</div>
-                    <div class="features" id="productFeatures">
-                        <h3>Ürün Özellikleri</h3>
-                        <table class="table">
-                            <tbody id="featuresTable">
-                                <!-- Dinamik olarak özellikler eklenecek -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="description" id="productDescription">
-                        Açıklama Yükleniyor...
-                    </div>
-                    <!-- Sosyal Medya Paylaşım Butonları -->
-                    <div class="social-share text-center">
-                        <a href="#" title="Facebook'ta Paylaş"><i class="fab fa-facebook-square"></i></a>
-                        <a href="#" title="Twitter'da Paylaş"><i class="fab fa-twitter-square"></i></a>
-                        <a href="#" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
-                        <a href="#" title="LinkedIn'de Paylaş"><i class="fab fa-linkedin"></i></a>
-                    </div>
+        </div>
+
+        <!-- Ürün Özellikleri -->
+        <div class="row my-4">
+            <div class="col-12">
+                <div class="features" id="productFeatures">
+                    <h3 class="text-center">Ürün Özellikleri</h3>
+                    <table class="table">
+                        <tbody id="featuresTable">
+                            <!-- Dinamik olarak özellikler eklenecek -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fiyat -->
+        <div class="row">
+            <div class="col-12">
+                <div class="price" id="productPrice">Fiyat Yükleniyor...</div>
+            </div>
+        </div>
+
+        <!-- Ürün Açıklaması -->
+        <div class="row">
+            <div class="col-12">
+                <div class="description" id="productDescription">
+                    Açıklama Yükleniyor...
+                </div>
+            </div>
+        </div>
+
+        <!-- Sosyal Medya Paylaşım Butonları -->
+        <div class="row">
+            <div class="col-12">
+                <div class="social-share text-center">
+                    <a href="#" title="Facebook'ta Paylaş"><i class="fab fa-facebook-square"></i></a>
+                    <a href="#" title="Twitter'da Paylaş"><i class="fab fa-twitter-square"></i></a>
+                    <a href="#" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
+                    <a href="#" title="LinkedIn'de Paylaş"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </div>
@@ -188,7 +216,10 @@
     <!-- Footer Bölümü -->
     <footer class="footer">
         <p>© 2024 Tatarlı Seramik. Tüm hakları saklıdır.</p>
-        
+        <div class="contact-info">
+            <p><i class="fas fa-phone-alt"></i> +90 123 456 78 90</p>
+            <p><i class="fas fa-envelope"></i> info@emekyapi.com</p>
+        </div>
     </footer>
 
     <!-- Bootstrap JS ve Bağımlılıkları -->
@@ -200,15 +231,15 @@
     <script>
         // Firebase yapılandırması
         const firebaseConfig = {
-    apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
-    authDomain: "whatsapp-156a6.firebaseapp.com",
-    databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
-    projectId: "whatsapp-156a6",
-    storageBucket: "whatsapp-156a6.appspot.com",
-    messagingSenderId: "236478826016",
-    appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
-    measurementId: "G-0LY6WH95VM"
-  };
+            apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
+            authDomain: "whatsapp-156a6.firebaseapp.com",
+            databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
+            projectId: "whatsapp-156a6",
+            storageBucket: "whatsapp-156a6.appspot.com",
+            messagingSenderId: "236478826016",
+            appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
+            measurementId: "G-0LY6WH95VM"
+        };
 
         // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
@@ -225,8 +256,7 @@
                 const data = snapshot.val();
                 if (data) {
                     // Ürün Adı
-                    document.getElementById('productName').textContent = data.productName;
-
+                    document.title = data.productName + ' - Ürün Bilgileri'; // Sayfa başlığını güncelle
                     // Fiyat
                     document.getElementById('productPrice').textContent = data.productPrice + ' TL';
 
