@@ -14,175 +14,162 @@
     <style>
         /* Ana body etiketi için genel stil ayarları */
         body {
-            font-family: 'Montserrat', sans-serif; /* Yazı tipi 'Montserrat' olarak ayarlandı */
-            background-color: #f8f9fa; /* Arka plan rengi açık gri */
-            color: #343a40; /* Metin rengi koyu gri */
-            font-size: 0.9rem; /* Varsayılan yazı boyutu */
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            font-size: 0.9rem;
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 100px; /* Footer için alt boşluk */
         }
-    
+
         /* Header (üst bilgi) alanı için stil */
         .header {
-            background-color: #f8f9fa; /* Arka plan rengi açık gri */
-            padding: 10px 20px; /* Üst ve alt 10px, sağ ve sol 20px boşluk */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Alt gölge efekti */
-            position: relative; /* Göreceli konumlandırma */
-            z-index: 100; /* Z-index ile katman önceliği */
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 100;
         }
-    
-        /* Header içindeki ana konteyner */
+
         .header-container {
-            max-width: 1200px; /* Maksimum genişlik */
-            margin: 0 auto; /* Ortalanmış */
-            display: flex; /* Flexbox kullanılarak düzenleme */
-            align-items: center; /* Dikey hizalama */
-            justify-content: space-between; /* Elemanlar arasındaki boşluklar */
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-    
-        /* Logo resmi için stil */
+
         .logo {
-            max-height: 70px; /* Maksimum yükseklik */
-            transition: transform 0.3s ease; /* Geçiş efekti */
+            max-height: 70px;
+            transition: transform 0.3s ease;
         }
-    
-        /* Logo hover (fare ile üzerine gelince) efekti */
+
         .logo:hover {
-            transform: scale(1.05); /* Hafif büyütme efekti */
+            transform: scale(1.05);
         }
-    
-        /* Şirket adı için stil */
+
         .company-name {
-            font-size: 0.8rem; /* Yazı boyutu */
-            color: #333; /* Metin rengi koyu gri */
-            font-weight: 600; /* Yazı kalınlığı */
-            margin: 0; /* Margin (boşluk) yok */
-            text-align: right; /* Metin sağa hizalı */
+            font-size: 0.8rem;
+            color: #333;
+            font-weight: 600;
+            margin: 0;
+            text-align: right;
         }
-    
-        /* Mobil cihazlar için (768px ve altı) özel stil */
+
         @media (max-width: 767.98px) {
             .header-container {
-                flex-direction: row; /* Elemanların yatay sıraya geçmesi */
+                flex-direction: row;
             }
             .company-name {
-                font-size: 0.9rem; /* Daha küçük yazı boyutu */
+                font-size: 0.9rem;
             }
         }
-    
-        /* Header altındaki çizgi */
+
         .divider {
-            border-bottom: 1px solid #ccc; /* Alt çizgi rengi ve kalınlığı */
-            margin-bottom: 0; /* Header ile bitişik */
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 0;
         }
-    
-        /* Carousel (slayt gösterisi) içindeki resimlerin stili */
+
         .carousel-item img {
-            max-height: 250px; /* Maksimum yükseklik */
-            object-fit: cover; /* Resmin alanı kaplamasını sağlar */
-            width: 100%; /* Genişlik tam olarak kapsar */
-            cursor: pointer; /* İmleç değişir (tıklanabilir) */
+            max-height: 250px;
+            object-fit: cover;
+            width: 100%;
+            cursor: pointer;
         }
-    
-        /* Ürün adı için stil */
+
         .product-name {
-            font-size: 1.5rem; /* Yazı boyutu */
-            margin: 5px 0 10px 0; /* Üst 20px, alt 15px boşluk */
-            font-weight: 600; /* Yazı kalınlığı */
-            text-align: center; /* Metin ortalanmış */
-            color: #333; /* Koyu gri renk */
+            font-size: 1.5rem;
+            margin: 5px 0 10px 0;
+            font-weight: 600;
+            text-align: center;
+            color: #333;
         }
-    
-        /* Fiyat alanı için stil */
+
         .price {
-            font-size: 1.9rem; /* Yazı boyutu */
-            color: #000; /* Siyah renk */
-            margin-bottom: 10px; /* Alt boşluk */
-            font-weight: 600; /* Yazı kalınlığı */
-            text-align: center; /* Metin ortalanmış */
+            font-size: 1.9rem;
+            color: #000;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: center;
         }
-    
-        /* Ürün özellikleri tablosu için stil */
+
         .features {
-            margin-bottom: 5px; 
-            /* Alt boşluk */
+            margin-bottom: 5px;
         }
-    
-        /* Ürün özellikleri tablosundaki başlık hücreleri */
+
         .features th {
-            width: 40%; /* Hücre genişliği */
-            font-size: 0.9rem; /* Yazı boyutu */
+            width: 40%;
+            font-size: 0.9rem;
         }
-    
-        /* Ürün özellikleri tablosundaki veri hücreleri */
+
         .features td {
-            font-size: 0.9rem; /* Yazı boyutu */
+            font-size: 0.9rem;
         }
-    
-        /* Ürün açıklaması için stil */
+
         .description {
-            margin-bottom: 20px; /* Alt boşluk */
-            font-size: 0.9rem; /* Yazı boyutu */
-            text-align: center; /* Metin sola hizalı */
-            background-color: #f1f1f1; /* Açık gri arka plan rengi */
-            padding: 15px; /* İç boşluk */
-            border-radius: 5px; /* Kenar yuvarlama */
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
         }
-    
-        /* Ürün açıklaması başlığı için stil */
+
         .description h3 {
-            font-size: 1rem; /* Başlık yazı boyutu */
-            font-weight: 600; /* Yazı kalınlığı */
-            margin-bottom: 10px; /* Alt boşluk */
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
-    
-        /* Sosyal medya paylaşım butonları için stil */
+
         .social-share a {
-            margin: 0 5px; /* Sağ ve sol boşluk */
-            font-size: 1.5rem; /* İkon boyutu */
-            color: #000000; /* İkon rengi */
-            transition: color 0.3s; /* Renk değişimi efekti */
+            margin: 0 5px;
+            font-size: 1.5rem;
+            color: #000000;
+            transition: color 0.3s;
         }
-    
-        /* Sosyal medya butonları hover (fare ile üzerine gelince) efekti */
+
         .social-share a:hover {
-            color: #0d6efd; /* Mavi renk */
+            color: #0d6efd;
         }
-    
-        /* Footer (alt bilgi) alanı için stil */
+
+        /* Footer */
         .footer {
-            background-color: #fff; /* Beyaz arka plan */
-            padding: 15px; /* İç boşluk */
-            text-align: center; /* Metin ortalanmış */
-            font-size: 0.8rem; /* Yazı boyutu */
-            color: #777; /* Metin rengi (gri) */
-            margin-top: 20px; /* Üst boşluk */
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.1); /* Üst gölge efekti */
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 20px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
-    
-        /* Modal içindeki resmin stil ayarları */
-        .modal-img {
-            width: 100%; /* Tam genişlik */
-        }
-    
-        /* Footer içindeki iletişim bilgileri */
+
         .footer .contact-info {
-            margin-top: 10px; /* Üst boşluk */
-            font-size: 0.8rem; /* Yazı boyutu */
+            font-size: 0.9rem;
         }
-    
-        /* Footer içindeki iletişim bilgilerinin metin boşlukları */
+
         .footer .contact-info p {
-            margin: 0; /* Boşluk yok */
+            margin: 5px 0;
+        }
+
+        .footer .contact-info i {
+            margin-right: 8px;
+            color: #0d6efd;
         }
 
         /* Ürün Linki Butonu için Stil */
         .product-link img {
-            max-width: 200px; /* Butonun maksimum genişliği */
-            cursor: pointer;  /* İmleç değişimi */
-            transition: transform 0.3s ease; /* Hover efekti için geçiş */
+            max-width: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
         .product-link img:hover {
-            transform: scale(1.05); /* Hover efekti için büyütme */
+            transform: scale(1.05);
+        }
+
+        .product-link span {
+            font-size: 1rem;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -264,7 +251,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="product-link text-center mt-4" id="productLinkContainer">
-                    <!-- Link butonu burada dinamik olarak eklenecek -->
+                    <!-- Link butonu ve metin burada dinamik olarak eklenecek -->
                 </div>
             </div>
         </div>
@@ -294,10 +281,18 @@
 
     <!-- Footer Bölümü -->
     <footer class="footer">
-        <div class="contact-info">
-            <p><strong>Tel:</strong> +90(212)6093595</p>
-            <p><strong>Gsm:</strong> +90(530)9612700</p>
-            <p><strong>Mail:</strong> satis@tatarli.com.tr</p>
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 mb-3">
+                    <p><i class="fas fa-phone-alt"></i> <strong>Tel:</strong> +90(212)6093595</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <p><i class="fas fa-mobile-alt"></i> <strong>Gsm:</strong> +90(530)9612700</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <p><i class="fas fa-envelope"></i> <strong>Mail:</strong> satis@tatarli.com.tr</p>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -323,23 +318,6 @@
         // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
-        // Sosyal Medya Paylaşım Fonksiyonları
-        function setUpSocialMediaSharing(productLink) {
-            const shareText = encodeURIComponent(`Bu ürüne göz atın: ${productLink}`);
-
-            // Facebook Paylaşımı
-            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productLink)}`;
-
-            // Instagram Paylaşımı (Instagram web üzerinden paylaşım API'si sunmaz, bu nedenle paylaşım linkini kopyalayabiliriz)
-            document.getElementById('shareInstagram').addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('Bu linki Instagram hikayenizde paylaşmak için kopyalayın: ' + productLink);
-            });
-
-            // WhatsApp Paylaşımı
-            document.getElementById('shareWhatsApp').href = `https://wa.me/?text=${shareText}`;
-        }
 
         // URL'den id parametresini al
         const params = new URLSearchParams(window.location.search);
@@ -419,29 +397,40 @@
                     if (data.productLink && data.productLink.trim() !== '') {
                         const productLinkContainer = document.getElementById('productLinkContainer');
 
+                        // Yeni bir div oluştur ve içini doldur
+                        const linkDiv = document.createElement('div');
+                        linkDiv.className = 'd-flex align-items-center justify-content-center';
+
+                        // Metin oluştur
+                        const linkText = document.createElement('span');
+                        linkText.textContent = 'Bu ürünün bir linki var:';
+                        linkText.className = 'me-2';
+
                         // Link butonu için resim oluştur
                         const linkImage = document.createElement('img');
                         linkImage.src = 'link.png'; // Buton görselinin dosya adı
                         linkImage.alt = 'Ürüne Git';
+                        linkImage.style.maxWidth = '50px';
+                        linkImage.style.cursor = 'pointer';
 
                         // Resme tıklama olayı ekle
                         linkImage.addEventListener('click', function() {
                             window.open(data.productLink, '_blank');
                         });
 
-                        productLinkContainer.appendChild(linkImage);
+                        // linkDiv içine ekle
+                        linkDiv.appendChild(linkText);
+                        linkDiv.appendChild(linkImage);
+
+                        // productLinkContainer içine linkDiv'i ekle
+                        productLinkContainer.appendChild(linkDiv);
                     }
 
-                    // Ürün Linki Oluşturma
-                    let productLink = window.location.href;
-
-                    // Eğer ürün linki mevcutsa, onu kullanın
-                    if (data.productLink && data.productLink.trim() !== '') {
-                        productLink = data.productLink.trim();
-                    }
+                    // Paylaşılacak Linki Oluşturma (Sayfanın kendi URL'si)
+                    const shareLink = window.location.href;
 
                     // Sosyal Medya Paylaşım Fonksiyonlarını Ayarla
-                    setUpSocialMediaSharing(productLink);
+                    setUpSocialMediaSharing(shareLink);
 
                 } else {
                     alert('Ürün bulunamadı.');
@@ -453,6 +442,23 @@
             });
         } else {
             alert('Geçersiz QR kodu veya URL.');
+        }
+
+        // Sosyal Medya Paylaşım Fonksiyonları
+        function setUpSocialMediaSharing(shareLink) {
+            const shareText = encodeURIComponent(`Bu ürüne göz atın: ${shareLink}`);
+
+            // Facebook Paylaşımı
+            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`;
+
+            // Instagram Paylaşımı
+            document.getElementById('shareInstagram').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Bu linki Instagram hikayenizde paylaşmak için kopyalayın: ' + shareLink);
+            });
+
+            // WhatsApp Paylaşımı
+            document.getElementById('shareWhatsApp').href = `https://wa.me/?text=${shareText}`;
         }
     </script>
 
