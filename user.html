@@ -174,6 +174,18 @@
         .footer .contact-info p {
             margin: 0; /* Boşluk yok */
         }
+
+        /* Ürün Linki Butonu için Stil */
+.product-link img {
+    max-width: 200px; /* Butonun maksimum genişliği */
+    cursor: pointer;  /* İmleç değişimi */
+    transition: transform 0.3s ease; /* Hover efekti için geçiş */
+}
+
+.product-link img:hover {
+    transform: scale(1.05); /* Hover efekti için büyütme */
+}
+
     </style>
     
 </head>
@@ -250,16 +262,27 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Ürün Linki -->
+        <div class="row">
+            <div class="col-12">
+                <div class="product-link text-center mt-4" id="productLinkContainer">
+                    <!-- Link butonu burada dinamik olarak eklenecek -->
+                </div>
+            </div>
+        </div>
 
         <!-- Sosyal Medya Paylaşım Butonları -->
         <div class="row">
             <div class="col-12">
-                <div class="social-share text-center">
-                    <a href="#" title="Facebook'ta Paylaş"><i class="fab fa-facebook-square"></i></a>
-                    <a href="#" title="Twitter'da Paylaş"><i class="fab fa-twitter-square"></i></a>
-                    <a href="#" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
-                    <a href="#" title="LinkedIn'de Paylaş"><i class="fab fa-linkedin"></i></a>
-                </div>
+               <!-- Sosyal Medya Paylaşım Butonları -->
+<!-- Sosyal Medya Paylaşım Butonları -->
+<div class="social-share text-center">
+    <a href="#" id="shareFacebook" title="Facebook'ta Paylaş"><i class="fab fa-facebook-square"></i></a>
+    <a href="#" id="shareInstagram" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
+    <a href="#" id="shareWhatsApp" title="WhatsApp'ta Paylaş"><i class="fab fa-whatsapp-square"></i></a>
+</div>
+
             </div>
         </div>
     </div>
@@ -276,13 +299,17 @@
     </div>
 
     <!-- Footer Bölümü -->
-    <footer class="footer">
-        <p>© 2024 Tatarlı Seramik. Tüm hakları saklıdır.</p>
-        <div class="contact-info">
-            <p><i class="fas fa-phone-alt"></i> +90 123 456 78 90</p>
-            <p><i class="fas fa-envelope"></i> info@tatarliyapi.com</p>
-        </div>
-    </footer>
+   <!-- Footer Bölümü -->
+<!-- Footer Bölümü -->
+<footer class="footer">
+    <div class="contact-info">
+        <p><strong>Tel:</strong> +90(212)6093595</p>
+        <p><strong>Gsm:</strong> +90(530)9612700</p>
+        <p><strong>Mail:</strong> satis@tatarli.com.tr</p>
+    </div>
+</footer>
+
+
 
     <!-- Bootstrap JS ve Bağımlılıkları -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -359,6 +386,8 @@ const firebaseConfig = {
                             prevButton.style.display = 'none';
                             nextButton.style.display = 'none';
                         }
+
+                        setUpSocialMediaSharing(productLink);
                     } else {
                         alert('Ürün resmi bulunamadı.');
                         // Carousel'i gizleyebilirsiniz
@@ -393,6 +422,58 @@ const firebaseConfig = {
         } else {
             alert('Geçersiz QR kodu veya URL.');
         }
+
+        // Açıklama
+document.getElementById('descriptionText').textContent = data.productDescription;
+
+// Ürün Linkini Kontrol Et ve Ekle
+if (data.productLink && data.productLink.trim() !== '') {
+    const productLinkContainer = document.getElementById('productLinkContainer');
+    
+    // Link butonu için resim oluştur
+    const linkImage = document.createElement('img');
+    linkImage.src = 'link.png'; // Buton görselinin dosya adı
+    linkImage.alt = 'Ürüne Git';
+    
+    // Resme tıklama olayı ekle
+    linkImage.addEventListener('click', function() {
+        window.open(data.productLink, '_blank');
+    });
+    
+    productLinkContainer.appendChild(linkImage);
+}
+
+// Sosyal Medya Paylaşım Fonksiyonları
+function setUpSocialMediaSharing(productLink) {
+    const shareText = encodeURIComponent(`Bu ürüne göz atın: ${productLink}`);
+
+    // Facebook Paylaşımı
+    document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productLink)}`;
+
+    // Instagram Paylaşımı (Instagram web üzerinden paylaşım API'si sunmaz, bu nedenle paylaşım linkini kopyalayabiliriz)
+    document.getElementById('shareInstagram').addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Bu linki Instagram hikayenizde paylaşmak için kopyalayın: ' + productLink);
+    });
+
+    
+
+    // WhatsApp Paylaşımı
+    document.getElementById('shareWhatsApp').href = `https://wa.me/?text=${shareText}`;
+}
+
+// Ürün Linki Oluşturma
+let productLink = window.location.href;
+
+// Eğer ürün linki mevcutsa, onu kullanın
+if (data.productLink && data.productLink.trim() !== '') {
+    productLink = data.productLink.trim();
+}
+
+// Sosyal Medya Paylaşım Fonksiyonlarını Ayarla
+setUpSocialMediaSharing(productLink);
+
+
     </script>
 
 </body>
