@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Paneli</title>
+    <link rel="icon" href="erkayalogo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1, h3, h4 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin: 0 auto 15px auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        input[type="file"] {
+            width: 100%;
+        }
+        #saveBtn, #addFeatureBtn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        #qrcode {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #qrcode a {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Paneli</h1>
+    <div>
+        <div class="form-group">
+            <label for="productName">Ürün İsmi:</label>
+            <input type="text" id="productName" placeholder="Ürün İsmi">
+        </div>
+        <div class="form-group">
+            <label for="productPrice">Ürün Fiyatı:</label>
+            <input type="text" id="productPrice" placeholder="Ürün Fiyatı">
+        </div>
+        <div class="form-group">
+            <label for="productImages">Ürün Resimleri:</label>
+            <input type="file" id="productImages" multiple>
+        </div>
+        <div class="form-group">
+            <label for="productDescription">Ürün Açıklaması:</label>
+            <textarea id="productDescription" placeholder="Ürün Açıklaması"></textarea>
+        </div>
+        <div id="productFeatures">
+            <h3>Ürün Özellikleri</h3>
+            <div id="featuresContainer"></div>
+            <button type="button" id="addFeatureBtn">Özellik Ekle</button>
+        </div>
+        <button id="saveBtn">Kaydet ve QR Kod Oluştur</button>
+    </div>
+
+    <div id="qrcode"></div>
+
+    <!-- Firebase ve Uygulama Kodları -->
+    <script>
+        // Firebase yapılandırması (kendi yapılandırmanızı buraya ekleyin)
+        const firebaseConfig = {
+    apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
+    authDomain: "whatsapp-156a6.firebaseapp.com",
+    databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
+    projectId: "whatsapp-156a6",
+    storageBucket: "whatsapp-156a6.appspot.com",
+    messagingSenderId: "236478826016",
+    appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
+    measurementId: "G-0LY6WH95VM"
+  };
+
+        // Firebase'i Başlat
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const storage = firebase.storage();
+
+        // Özellik ekleme işlemi
+        let featureCount = 0;
+        document.getElementById('addFeatureBtn').addEventListener('click', addFeature);
+
+        function addFeature() {
+            featureCount++;
+            const featuresContainer = document.getElementById('featuresContainer');
+            const featureDiv = document.createElement('div');
+            featureDiv.classList.add('feature');
+            featureDiv.setAttribute('data-feature-id', featureCount);
+            featureDiv.innerHTML = `
+                <h4>Özellik ${featureCount}</h4>
+                <div class="form-group">
+                    <label for="featureCategory${featureCount}">Kategori:</label>
+                    <input type="text" id="featureCategory${featureCount}" placeholder="Kategori">
+                </div>
+                <div class="form-group">
+                    <label for="featureImage${featureCount}">Özellik Resmi:</label>
+                    <input type="file" id="featureImage${featureCount}">
+                </div>
+                <div class="form-group">
+                    <label for="featureDescription${featureCount}">Açıklama:</label>
+                    <input type="text" id="featureDescription${featureCount}" placeholder="Açıklama">
+                </div>
+            `;
+            featuresContainer.appendChild(featureDiv);
+        }
+
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.addEventListener('click', async () => {
+            const productName = document.getElementById('productName').value.trim();
+            const productPrice = document.getElementById('productPrice').value.trim();
+            const productDescription = document.getElementById('productDescription').value.trim();
+            const productImages = document.getElementById('productImages').files;
+
+            if (productName && productPrice && productDescription) {
+                // Yeni bir ürün anahtarı oluştur
+                const newProductKey = database.ref().child('products').push().key;
+
+                // Veriyi hazırlayın
+                const productData = {
+                    productName: productName,
+                    productPrice: productPrice,
+                    productDescription: productDescription,
+                    images: [],
+                    features: []
+                };
+
+                try {
+                    // Ürün resimlerini yükle
+                    for (let i = 0; i < productImages.length; i++) {
+                        const imageFile = productImages[i];
+                        const storageRef = storage.ref().child(`products/${newProductKey}/images/${imageFile.name}`);
+                        const snapshot = await storageRef.put(imageFile);
+                        const downloadURL = await snapshot.ref.getDownloadURL();
+                        productData.images.push(downloadURL);
+                    }
+
+                    // Özellikleri topla
+                    const features = document.querySelectorAll('.feature');
+                    for (let i = 0; i < features.length; i++) {
+                        const featureDiv = features[i];
+                        const featureId = featureDiv.getAttribute('data-feature-id');
+                        const category = featureDiv.querySelector(`#featureCategory${featureId}`).value.trim();
+                        const description = featureDiv.querySelector(`#featureDescription${featureId}`).value.trim();
+                        const featureImageFile = featureDiv.querySelector(`#featureImage${featureId}`).files[0];
+
+                        let featureImageURL = '';
+                        if (featureImageFile) {
+                            const storageRef = storage.ref().child(`products/${newProductKey}/features/${featureImageFile.name}`);
+                            const snapshot = await storageRef.put(featureImageFile);
+                            featureImageURL = await snapshot.ref.getDownloadURL();
+                        }
+
+                        productData.features.push({
+                            category: category,
+                            description: description,
+                            image: featureImageURL
+                        });
+                    }
+
+                    // Veriyi Realtime Database'e ekle
+                    const updates = {};
+                    updates['/products/' + newProductKey] = productData;
+
+                    await database.ref().update(updates);
+                    alert('Kayıt başarılı!');
+
+                    // QR kodu oluştur
+                    const qrData = `https://erkayayazilim.github.io/qrcode/user.html?id=${newProductKey}`;
+
+                    const qrcodeElement = document.getElementById('qrcode');
+                    qrcodeElement.innerHTML = ''; // Önceki QR kodunu temizle
+
+                    new QRCode(qrcodeElement, {
+                        text: qrData,
+                        width: 256,
+                        height: 256,
+                    });
+
+                    // QR kodunu indirilebilir yap
+                    setTimeout(() => {
+                        const canvas = qrcodeElement.querySelector('canvas');
+                        const imgData = canvas.toDataURL('image/png');
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = imgData;
+                        downloadLink.download = 'qrcode.png';
+                        downloadLink.textContent = 'QR Kodu İndir';
+                        qrcodeElement.appendChild(downloadLink);
+                    }, 500);
+
+                } catch (error) {
+                    console.error('Hata:', error);
+                }
+
+            } else {
+                alert('Lütfen tüm alanları doldurun.');
+            }
+        });
+    </script>
+
+    <script>
+        
+    </script>
+</body>
+</html>
