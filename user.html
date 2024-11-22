@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ürün Bilgileri</title>
     <link rel="icon" href="erkayalogo.png" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -20,7 +19,6 @@
             background-color: #f8f9fa;
             color: #343a40;
             font-size: 0.9rem;
-           /* Footer için alt boşluk */
         }
 
         /* Header (üst bilgi) alanı için stil */
@@ -87,11 +85,16 @@
         }
 
         .price {
-            font-size: 1.9rem;
+            font-size: 1.2rem;
             color: #000;
             margin-bottom: 10px;
             font-weight: 600;
             text-align: center;
+        }
+
+        .price del {
+            color: #6c757d;
+            font-size: 1rem;
         }
 
         .features {
@@ -135,24 +138,23 @@
 
         /* Footer */
         .footer {
-    background-color: #f8f9fa; /* Açık gri arka plan */
-    padding: 20px 0; /* Üst ve alt boşlukları küçült */
-    text-align: center; /* Metni ortala */
-    font-size: 0.7rem; /* Yazı boyutunu küçült */
-    color: #666; /* Daha açık gri metin rengi */
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Daha ince gölge */
-    margin-top: 10px; /* Üst boşluk */
-}
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #666;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
 
-.footer .contact-info {
-    font-size: 0.7rem; /* Yazı boyutunu küçült */
-    line-height: 1.2; /* Satır arası boşluğu azalt */
-}
+        .footer .contact-info {
+            font-size: 0.7rem;
+            line-height: 1.2;
+        }
 
-.footer .contact-info p {
-    margin: 2px 0; /* Satır arası boşlukları azalt */
-}
-
+        .footer .contact-info p {
+            margin: 2px 0;
+        }
 
         /* Ürün Linki Butonu için Stil */
         .product-link img {
@@ -212,8 +214,19 @@
             </div>
         </div>
 
-        <!-- Ürün Özellikleri -->
+        <!-- Fiyat -->
         <div class="row my-4">
+            <div class="col-12">
+                <div class="price">
+                    <span id="discountedPrice">İndirimli Fiyat Yükleniyor...</span>
+                    <br>
+                    <small><del id="listPrice">Liste Fiyatı Yükleniyor...</del></small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ürün Özellikleri -->
+        <div class="row">
             <div class="col-12">
                 <div class="features" id="productFeatures">
                     <h3 class="text-center">Ürün Özellikleri</h3>
@@ -223,13 +236,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <!-- Fiyat -->
-        <div class="row">
-            <div class="col-12">
-                <div class="price" id="productPrice">Fiyat Yükleniyor...</div>
             </div>
         </div>
 
@@ -278,14 +284,16 @@
     </div>
 
     <!-- Footer Bölümü -->
-
-
     <footer class="footer">
         <p>© 2024 Tatarlı Seramik. Tüm hakları saklıdır.</p>
         <div class="contact-info">
             <p><i class="fas fa-phone-alt"></i> <strong>Tel:</strong> +90(212)6093595</p>
             <p><i class="fas fa-mobile-alt"></i> <strong>Gsm:</strong> +90(530)9612700</p>
             <p><i class="fas fa-envelope"></i> <strong>Mail:</strong> satis@tatarli.com.tr</p>
+        </div>
+        <!-- Mevcut Stok ve Satılabilir Miktar -->
+        <div class="stock-info mt-2">
+            <p><small>Mevcut Stok / Satılabilir Miktar: <span id="stockInfo">Yükleniyor...</span></small></p>
         </div>
     </footer>
 
@@ -326,8 +334,9 @@
                     document.title = data.productName + ' - Ürün Bilgileri'; // Sayfa başlığını güncelle
                     document.getElementById('productName').textContent = data.productName;
 
-                    // Fiyat
-                    document.getElementById('productPrice').textContent = data.productPrice + ' TL';
+                    // Fiyatlar
+                    document.getElementById('listPrice').textContent = data.listPrice ? data.listPrice + ' TL ' + '+KDV' : 'Liste Fiyatı Yok';
+                    document.getElementById('discountedPrice').textContent = data.discountedPrice ? data.discountedPrice + ' TL' : 'İndirimli Fiyat Yok';
 
                     // Açıklama
                     document.getElementById('descriptionText').textContent = data.productDescription;
@@ -380,6 +389,33 @@
 
                             const td = document.createElement('td');
                             td.textContent = feature.description;
+
+                            // Eğer özellik dosyası varsa
+                            if (feature.fileURL) {
+                                const fileLink = document.createElement('a');
+                                fileLink.href = feature.fileURL;
+                                fileLink.target = '_blank';
+                                fileLink.style.marginLeft = '10px';
+                                fileLink.textContent = '[Dosyayı Görüntüle]';
+
+                                // Dosya tipini kontrol et
+                                if (feature.fileURL.endsWith('.pdf')) {
+                                    fileLink.addEventListener('click', function(e) {
+                                        // PDF'i yeni sekmede aç
+                                    });
+                                } else if (feature.fileURL.endsWith('.jpg') || feature.fileURL.endsWith('.jpeg') || feature.fileURL.endsWith('.png')) {
+                                    fileLink.addEventListener('click', function(e) {
+                                        e.preventDefault();
+                                        // Resmi modal içinde göster
+                                        document.getElementById('modalImage').src = feature.fileURL;
+                                        const myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+                                        myModal.show();
+                                    });
+                                }
+
+                                td.appendChild(fileLink);
+                            }
+
                             tr.appendChild(td);
 
                             featuresTable.appendChild(tr);
@@ -396,7 +432,7 @@
 
                         // Metin oluştur
                         const linkText = document.createElement('span');
-                        linkText.textContent = 'Bu ürünün bir linki var:';
+                        linkText.textContent = 'Bu ürünü web sitemizde görüntüleyin:';
                         linkText.className = 'me-2';
 
                         // Link butonu için resim oluştur
@@ -424,6 +460,13 @@
 
                     // Sosyal Medya Paylaşım Fonksiyonlarını Ayarla
                     setUpSocialMediaSharing(shareLink);
+
+                    // Stok Bilgisi
+                    const stockInfoElement = document.getElementById('stockInfo');
+                    const stock = data.stock || '0';
+                    const saleable = data.saleable !== undefined ? data.saleable.toString() : '0';
+
+                    stockInfoElement.textContent = `${stock} / ${saleable}`;
 
                 } else {
                     alert('Ürün bulunamadı.');
