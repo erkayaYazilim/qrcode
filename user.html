@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <!-- Font Awesome (Sosyal medya ve ikonlar için) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <!-- Özel Stil Dosyası -->
@@ -82,19 +82,7 @@
             font-weight: 600;
             text-align: center;
             color: #333;
-        }
-
-        .price {
-            font-size: 1.2rem;
-            color: #000;
-            margin-bottom: 10px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .price del {
-            color: #6c757d;
-            font-size: 1rem;
+            font-family: 'Roboto', 'Helvetica Neue', sans-serif;
         }
 
         .features {
@@ -171,6 +159,24 @@
             font-size: 1rem;
             font-weight: 500;
         }
+
+        /* Fiyat Bölümü için Stil */
+        .price {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .price #discountedPrice {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .price #listPrice {
+            font-size: 1rem;
+            font-weight: normal;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -214,17 +220,6 @@
             </div>
         </div>
 
-        <!-- Fiyat -->
-        <div class="row my-4">
-            <div class="col-12">
-                <div class="price">
-                    <span id="discountedPrice">İndirimli Fiyat Yükleniyor...</span>
-                    <br>
-                    <small><del id="listPrice">Liste Fiyatı Yükleniyor...</del></small>
-                </div>
-            </div>
-        </div>
-
         <!-- Ürün Özellikleri -->
         <div class="row">
             <div class="col-12">
@@ -235,6 +230,17 @@
                             <!-- Dinamik olarak özellikler eklenecek -->
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fiyat -->
+        <div class="row my-4">
+            <div class="col-12">
+                <div class="price">
+                    <span id="discountedPrice">Satış Fiyatı Yükleniyor...</span>
+                    <br>
+                    <small id="listPrice">Liste Fiyatı Yükleniyor...</small>
                 </div>
             </div>
         </div>
@@ -293,7 +299,7 @@
         </div>
         <!-- Mevcut Stok ve Satılabilir Miktar -->
         <div class="stock-info mt-2">
-            <p><small>Mevcut Stok / Satılabilir Miktar: <span id="stockInfo">Yükleniyor...</span></small></p>
+            <p><small><span id="stockInfo">Yükleniyor...</span></small></p>
         </div>
     </footer>
 
@@ -306,15 +312,15 @@
     <script>
         // Firebase yapılandırması
         const firebaseConfig = {
-    apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
-    authDomain: "whatsapp-156a6.firebaseapp.com",
-    databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
-    projectId: "whatsapp-156a6",
-    storageBucket: "whatsapp-156a6.appspot.com",
-    messagingSenderId: "236478826016",
-    appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
-    measurementId: "G-0LY6WH95VM"
-  };
+            apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
+            authDomain: "whatsapp-156a6.firebaseapp.com",
+            databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
+            projectId: "whatsapp-156a6",
+            storageBucket: "whatsapp-156a6.appspot.com",
+            messagingSenderId: "236478826016",
+            appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
+            measurementId: "G-0LY6WH95VM"
+        };
 
         // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
@@ -333,10 +339,6 @@
                     // Ürün Adı
                     document.title = data.productName + ' - Ürün Bilgileri'; // Sayfa başlığını güncelle
                     document.getElementById('productName').textContent = data.productName;
-
-                    // Fiyatlar
-                    document.getElementById('listPrice').textContent = data.listPrice ? data.listPrice + ' TL ' + '+KDV' : 'Liste Fiyatı Yok';
-                    document.getElementById('discountedPrice').textContent = data.discountedPrice ? data.discountedPrice + ' TL' : 'İndirimli Fiyat Yok';
 
                     // Açıklama
                     document.getElementById('descriptionText').textContent = data.productDescription;
@@ -420,6 +422,19 @@
 
                             featuresTable.appendChild(tr);
                         });
+                    }
+
+                    // Fiyatlar
+                    if (data.discountedPrice) {
+                        document.getElementById('discountedPrice').textContent = 'Satış Fiyatı = ' + data.discountedPrice + 'TL (KDV DAHİL)';
+                    } else {
+                        document.getElementById('discountedPrice').textContent = 'Satış Fiyatı Yok';
+                    }
+
+                    if (data.listPrice) {
+                        document.getElementById('listPrice').textContent = 'Liste Fiyatı = ' + data.listPrice + 'TL + KDV';
+                    } else {
+                        document.getElementById('listPrice').textContent = 'Liste Fiyatı Yok';
                     }
 
                     // Ürün Linkini Kontrol Et ve Ekle
