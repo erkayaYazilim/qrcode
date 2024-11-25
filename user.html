@@ -273,9 +273,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="social-share text-center">
-                    <a href="#" id="shareFacebook" title="Facebook'ta Paylaş"><i class="fab fa-facebook-square"></i></a>
                     <a href="#" id="shareInstagram" title="Instagram'da Paylaş"><i class="fab fa-instagram-square"></i></a>
-                    <a href="#" id="shareWhatsApp" title="WhatsApp'ta Paylaş"><i class="fab fa-whatsapp-square"></i></a>
+                    <a href="#" id="shareWhatsApp" title="WhatsApp'ta Paylaş"><i class="fab fa-whatsapp-square"></i></a>                    
                 </div>
             </div>
         </div>
@@ -503,21 +502,20 @@
         }
 
         // Sosyal Medya Paylaşım Fonksiyonları
-        function setUpSocialMediaSharing(shareLink) {
-            const shareText = encodeURIComponent(`Bu ürüne göz atın: ${shareLink}`);
+        function setUpSocialMediaSharing() {
+    const shareLink = window.location.href;
+    const shareText = `Merhaba, bu ürüne göz atmak ister misiniz? ${shareLink}`;
 
-            // Facebook Paylaşımı
-            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`;
+    // Instagram Yönlendirme
+    document.getElementById('shareInstagram').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.open('https://www.instagram.com/tatarli_seramik?igsh=enM0em85cjczNWsy', '_blank'); // Instagram profil adresi
+    });
 
-            // Instagram Paylaşımı
-            document.getElementById('shareInstagram').addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('Bu linki Instagram hikayenizde paylaşmak için kopyalayın: ' + shareLink);
-            });
+    // WhatsApp Yönlendirme
+    document.getElementById('shareWhatsApp').href = `https://wa.me/905309612700?text=${encodeURIComponent(shareText)}`;
+}
 
-            // WhatsApp Paylaşımı
-            document.getElementById('shareWhatsApp').href = `https://wa.me/?text=${shareText}`;
-        }
     </script>
 
 </body>
