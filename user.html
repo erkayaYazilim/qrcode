@@ -425,12 +425,14 @@
                         });
                     }
 
-                    // Fiyatlar
                     if (data.discountedPrice) {
-                        document.getElementById('discountedPrice').textContent = 'Satış Fiyatı = ' + data.discountedPrice + 'TL (KDV DAHİL)';
+                        document.getElementById('priceHeader').textContent = 'Satış Fiyatı:';
+                        document.getElementById('discountedPrice').textContent = data.discountedPrice + ' TL (KDV dahil)';
                     } else {
+                        document.getElementById('priceHeader').textContent = 'Satış Fiyatı';
                         document.getElementById('discountedPrice').textContent = 'Satış Fiyatı Yok';
                     }
+
 
                     if (data.listPrice) {
                         document.getElementById('listPrice').textContent = 'Liste Fiyatı = ' + data.listPrice + 'TL + KDV';
