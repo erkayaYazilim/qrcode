@@ -239,12 +239,14 @@
         <div class="row my-4">
             <div class="col-12">
                 <div class="price">
+                    <h3 id="priceHeader">Satış Fiyatı:</h3>
                     <span id="discountedPrice">Satış Fiyatı Yükleniyor...</span>
                     <br>
                     <small id="listPrice">Liste Fiyatı Yükleniyor...</small>
                 </div>
             </div>
         </div>
+        
 
         <!-- Ürün Açıklaması -->
         <div class="row">
@@ -426,12 +428,13 @@
                     }
 
                     if (data.discountedPrice) {
-                        document.getElementById('priceHeader').textContent = 'Satış Fiyatı:';
-                        document.getElementById('discountedPrice').textContent = data.discountedPrice + ' TL (KDV dahil)';
-                    } else {
-                        document.getElementById('priceHeader').textContent = 'Satış Fiyatı';
-                        document.getElementById('discountedPrice').textContent = 'Satış Fiyatı Yok';
-                    }
+    document.getElementById('priceHeader').textContent = 'Satış Fiyatı:';
+    document.getElementById('discountedPrice').textContent = data.discountedPrice + ' TL (KDV dahil)';
+} else {
+    document.getElementById('priceHeader').textContent = 'Satış Fiyatı';
+    document.getElementById('discountedPrice').textContent = 'Satış Fiyatı Yok';
+}
+
 
 
                     if (data.listPrice) {
