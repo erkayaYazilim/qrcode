@@ -169,7 +169,7 @@
         .price #discountedPrice {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #000;
+            color: red;
         }
 
         .price #listPrice {
@@ -429,6 +429,7 @@
 
                     if (data.discountedPrice) {
     document.getElementById('priceHeader').textContent = 'Satış Fiyatı:';
+    document.getElementById('priceHeader').style.color = 'red'; 
     document.getElementById('discountedPrice').textContent = data.discountedPrice + ' TL (Kdv dahil)';
 } else {
     document.getElementById('priceHeader').textContent = 'Satış Fiyatı';
