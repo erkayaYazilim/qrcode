@@ -3,230 +3,487 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Paneli</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="erkayalogo.png" type="image/x-icon">
+
+    <!-- Responsive Ayarları -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Firebase -->
+
+    <!-- Bootstrap CSS ve İkonlar -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Özel Stil Dosyası -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Font Awesome ve Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Özel Stil -->
+    
+   
+
+</head>
+<body>
+
+    <!-- Menü Barı -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Admin Paneli</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" id="navDashboard">
+                            <i class="bi bi-box-seam me-1"></i> Ürünler
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="navAddProduct">
+                            <i class="bi bi-plus-circle me-1"></i> Yeni Ürün
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="navExcelUpload">
+                            <i class="bi bi-file-earmark-spreadsheet me-1"></i> Fiyat/Stok Güncelle
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="navPrintLabels">
+                            <i class="bi bi-printer me-1"></i> Etiket Yazdır
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="navSettings">
+                            <i class="bi bi-gear me-1"></i> Ayarlar
+                        </a>
+                    </li>
+                    <!-- Yeni Menü Elemanı: Bütün Ürünleri Gör -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="navViewAllProducts">
+                            <i class="bi bi-eye me-1"></i> Bütün Ürünleri Gör
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- İçerik Bölümü -->
+    <div class="container mt-4" id="content">
+
+        <!-- Diğer bölümler... -->
+
+        <!-- Yeni Bölüm: Tüm Ürünler Sayfası -->
+        <div id="allProductsPage" class="d-none">
+            <h1 class="mb-4">Tüm Ürünler</h1>
+            <!-- Yükleme Progress Bar -->
+            <div class="progress mb-3" id="allProductsProgress" style="display: none;">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" id="allProductsProgressBar">0%</div>
+            </div>
+            <div class="card p-4">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="allProductsTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ürün Resmi</th>
+                                <th>Ürün İsmi</th>
+                                <th>Ürün Kodu</th>
+                                <th>Liste Fiyatı</th>
+                                <th>İndirimli Fiyat</th>
+                                <th>Mevcut Stok</th>
+                                <th>Satılabilir</th>
+                                <th>QR Kod</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Ürünler dinamik olarak yüklenecek -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Dashboard (Ürün Listesi) -->
+        <div id="dashboard" class="d-none">
+            <h1 class="mb-4">Ürünler</h1>
+            <div class="card p-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" id="searchInput" class="form-control"
+                            placeholder="Ürün ismi veya kodu ile ara...">
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1></h1>
+                        <span id="totalProducts" class="badge bg-info fs-5">Toplam Ürün: 0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-4">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="productsTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ürün Resmi</th>
+                                <th>Ürün İsmi</th>
+                                <th>Ürün Kodu</th>
+                                <th>Liste Fiyatı</th>
+                                <th>İndirimli Fiyat</th>
+                                <th>Mevcut Stok</th>
+                                <th>Satılabilir</th>
+                                <th>QR Kod</th>
+                                <th class="text-end">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Ürünler dinamik olarak yüklenecek -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button id="loadMoreButton" class="btn btn-primary mt-3 d-none">Daha Fazla</button>
+        </div>
+        <!-- Etiket Yazdırma Sayfası -->
+<!-- Etiket Yazdırma Sayfası -->
+<div id="printLabelsPage" class="d-none">
+    <h1 class="mb-4">Etiket Yazdır</h1>
+    <div class="card p-4">
+        <div class="mb-3 d-flex">
+            <input type="text" id="labelSearchInput" class="form-control me-2" placeholder="Ürün ismi ile ara...">
+            <button id="downloadExcelBtn" class="btn btn-success">
+                <i class="bi bi-download me-1"></i> Excel Olarak İndir
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="labelProductsTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Seç</th>
+                        <th>Ürün Resmi</th>
+                        <th>Ürün İsmi</th>
+                        <th>Ürün Kodu</th>
+                        <th>Satış Fiyatı</th>
+                        <th>Liste Fiyatı</th>
+                        <!-- Ürün Linki sütununu kaldırdık -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ürünler dinamik olarak yüklenecek -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Yeni Ürün Ekleme / Düzenleme Formu -->
+        <div id="addProductForm" class="d-none">
+            <h1 class="mb-4" id="formTitle">Yeni Ürün Oluştur</h1>
+            <div class="card p-4">
+                <div class="row">
+                    <!-- Form Bölümü -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Ürün İsmi:</label>
+                            <input type="text" id="productName" class="form-control" placeholder="Ürün İsmi">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productCode" class="form-label">Ürün Kodu:</label>
+                            <input type="text" id="productCode" class="form-control" placeholder="Ürün Kodu">
+                        </div>
+                        <div class="mb-3">
+                            <label for="listPrice" class="form-label">Liste Fiyatı:</label>
+                            <input type="text" id="listPrice" class="form-control" placeholder="Liste Fiyatı">
+                        </div>
+                        <div class="mb-3">
+                            <label for="discountedPrice" class="form-label">Satış Fiyatı:</label>
+                            <input type="text" id="discountedPrice" class="form-control" placeholder="İndirimli Satış Fiyatı">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productLink" class="form-label">Ürün Linki (Opsiyonel):</label>
+                            <input type="text" id="productLink" class="form-control" placeholder="Ürün Linki">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productImages" class="form-label">Ürün Resimleri:</label>
+                            <input type="file" id="productImages" class="form-control" multiple>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Ürün Açıklaması:</label>
+                            <textarea id="productDescription" class="form-control" placeholder="Ürün Açıklaması" rows="5"></textarea>
+                        </div>
+                        <div id="productFeatures" class="mb-3">
+                            <h4>Ürün Özellikleri</h4>
+                            <div id="featuresContainer"></div>
+                            <button type="button" id="addFeatureBtn" class="btn btn-outline-secondary mt-2"><i class="bi bi-plus-lg me-1"></i> Özellik Ekle</button>
+                        </div>
+                        <!-- Yükleme Progress Bar -->
+                        <div class="progress mt-3 d-none" id="uploadProgress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%;" id="progressBar">0%</div>
+                        </div>
+                        <button type="button" id="saveBtn" class="btn btn-success mt-3">
+                            <i class="bi bi-save me-1"></i> Kaydet ve QR Kod Oluştur
+                        </button>
+                        <button type="button" id="cancelBtn" class="btn btn-secondary mt-3 ms-2">
+                            <i class="bi bi-x-circle me-1"></i> İptal
+                        </button>
+                    </div>
+                    <!-- Canlı Önizleme -->
+                    <div class="col-md-6">
+                        <h4 class="text-center">Canlı Önizleme</h4>
+                        <div class="phone-preview mt-3">
+                            <div class="phone-screen">
+                                <!-- Ürün sayfası önizlemesi -->
+                                <div id="previewProductPage"><
+                                    <!-- Ürün sayfasının HTML yapısı -->
+                                    <header class="header bg-dark text-white p-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <img src="tatarlilogo2.png" alt="Logo" class="logo" style="height: 40px;">
+                                            <div class="contact-info">
+                                                <p class="mb-0"><i class="fas fa-phone-alt"></i> <span id="previewPhone">Telefon</span></p>
+                                                <p class="mb-0"><i class="fas fa-envelope"></i> <span id="previewEmail">E-posta</span></p>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="container my-3">
+                                        <div class="row">
+                                            <!-- Carousel Bölümü -->
+                                            <div class="col-12">
+                                                <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel">
+                                                    <div class="carousel-inner" id="previewCarouselInner">
+                                                        <!-- Resim önizlemeleri -->
+                                                        <div class="carousel-item active">
+                                                            <img src="placeholder.jpg" class="d-block w-100" alt="Ürün Resmi">
+                                                        </div>
+                                                    </div>
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#previewCarousel" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Önceki</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#previewCarousel" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Sonraki</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!-- Ürün Detayları Bölümü -->
+                                            <div class="col-12 mt-3">
+                                                <div class="product-details">
+                                                    <h2 id="previewProductName">Ürün Adı</h2>
+                                                    <div class="price h4 text-success" id="previewProductPrice">
+                                                        <span id="previewDiscountedPrice">0.00 TL</span>
+                                                        <small class="text-muted"><del id="previewListPrice">0.00 TL</del></small>
+                                                    </div>
+                                                    <div class="features mt-3" id="previewProductFeatures">
+                                                        <h5>Ürün Özellikleri</h5>
+                                                        <table class="table table-sm">
+                                                            <tbody id="previewFeaturesTable">
+                                                                <!-- Özellikler önizlemesi -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="description mt-3" id="previewProductDescription">Ürün açıklaması burada görünecek.</div>
+                                                    <div class="product-link mt-3" id="previewProductLink"></div>
+                                                    <!-- Sosyal Medya Paylaşım Butonları -->
+                                                    <div class="social-share text-center mt-4">
+                                                        <a href="#"><i class="fab fa-facebook-square"></i></a>
+                                                        <a href="#"><i class="fab fa-twitter-square"></i></a>
+                                                        <a href="#"><i class="fab fa-instagram-square"></i></a>
+                                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <footer class="footer">
+                                        <p>© 2024 Tatarlı Seramik. Tüm hakları saklıdır.</p>
+                                        <div class="contact-info">
+                                            <p><i class="fas fa-phone-alt"></i> <strong>Tel:</strong> +90(212)6093595</p>
+                                            <p><i class="fas fa-mobile-alt"></i> <strong>Gsm:</strong> +90(530)9612700</p>
+                                            <p><i class="fas fa-envelope"></i> <strong>Mail:</strong> satis@tatarli.com.tr</p>
+                                        </div>
+                                        <!-- Mevcut Stok ve Satılabilir Miktar -->
+                                        <div class="stock-info mt-2">
+                                            <p><small><span id="stockInfo">Yükleniyor...</span></small></p>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Etiket Önizleme -->
+<!-- Etiket Önizleme -->
+<div class="label-preview mt-4">
+    <h4>Etiket Önizleme</h4>
+    <div id="labelContainer" class="text-center">
+        <!-- Etiket İçeriği -->
+        <div id="labelContent" class="d-inline-block">
+            <div class="custom-label" id="labelElement">
+                <!-- Üst Kısım (Header) -->
+                <div class="label-header">
+                    <span class="company-name">TATARLI SERAMİK</span>
+                </div>
+                <!-- Etiket Gövdesi -->
+                <div class="label-body">
+                    <div class="product-info">
+                        <div class="product-name" id="labelProductName">Ürün Adı</div>
+                        <div class="product-code" id="labelProductCode">Ürün Kodu</div>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="bottom-section">
+                        <div class="price-section">
+                            <div class="sale-price" id="labelSalePrice">Satış Fiyatı: 0.00 TL</div>
+                            <div class="list-price" id="labelListPrice">Liste Fiyatı: 0.00 TL</div>
+                        </div>
+                        <div class="qr-section">
+                            <div class="qr-code" id="labelQRCode"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="printLabelBtn" class="btn btn-primary mt-3">
+            <i class="bi bi-printer me-1"></i> Etiketi Yazdır
+        </button>
+        <!-- İndirme Butonu -->
+        <button id="downloadLabelBtn" class="btn btn-primary mt-3 ms-2">
+            <i class="bi bi-download me-1"></i> Etiketi İndir (PNG)
+        </button>
+    </div>
+</div>
+
+
+
+
+                <!-- QR Kodunu Göster -->
+                <div id="qrcode" class="text-center mt-4"></div>
+            </div>
+        </div>
+
+        <!-- Excel Dosyası Yükleme Sayfası -->
+        <div class="container mt-4" id="content">
+
+            <!-- Excel Dosyası Yükleme Sayfası -->
+            <div id="excelUploadPage" class="d-none">
+                <h1 class="mb-4">Fiyat/Stok Güncelle</h1>
+                <div class="card p-4">
+                    <div class="mb-3">
+                        <label for="excelFileInput" class="form-label">Excel Dosyası Yükle:</label>
+                        <input type="file" id="excelFileInput" accept=".xls,.xlsx" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productCodeColumnName" class="form-label">Ürün Kodu Sütun Adı:</label>
+                        <input type="text" id="productCodeColumnName" class="form-control" placeholder="Örneğin: KODU">
+                    </div>
+                    <div class="mb-3">
+                        <label for="columnMapping" class="form-label">Excel Sütun Eşleştirmesi:</label>
+                        <p>Lütfen güncellemek istediğiniz alanları ve Excel'deki sütun isimlerini belirtin.</p>
+                        <div id="columnMapping">
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <select class="form-select update-field">
+                                        <option value="listPrice">Liste Fiyatı</option>
+                                        <option value="discountedPrice">İndirimli Fiyat</option>
+                                        <option value="stock">Mevcut Stok</option>
+                                        <option value="saleable">Satılabilir</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control excel-column-name" placeholder="Excel Sütun İsmi">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="addMappingBtn" class="btn btn-outline-secondary mt-2"><i class="bi bi-plus-lg me-1"></i> Alan Ekle</button>
+                    </div>
+                    <!-- Yükleme Progress Bar -->
+                    <div class="progress mt-3 d-none" id="excelUploadProgress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" id="excelProgressBar">0%</div>
+                    </div>
+                    <button type="button" id="uploadExcelBtn" class="btn btn-success mt-3">
+                        <i class="bi bi-upload me-1"></i> Yükle ve Güncelle
+                    </button>
+                </div>
+            </div>
+
+        <!-- Ayarlar Sayfası -->
+        <div id="settingsPage" class="d-none">
+            <h1 class="mb-4">Ayarlar</h1>
+            <div class="card p-4">
+                <div class="mb-3">
+                    <label for="settingsEmail" class="form-label">E-posta:</label>
+                    <input type="email" id="settingsEmail" class="form-control" placeholder="E-posta">
+                </div>
+                <div class="mb-3">
+                    <label for="settingsPhone" class="form-label">Telefon:</label>
+                    <input type="text" id="settingsPhone" class="form-control" placeholder="Telefon">
+                </div>
+                <div class="mb-3">
+                    <label for="settingsAddress" class="form-label">Adres:</label>
+                    <textarea id="settingsAddress" class="form-control" placeholder="Adres" rows="3"></textarea>
+                </div>
+                <button id="saveSettingsBtn" class="btn btn-success"><i class="bi bi-save me-1"></i> Ayarları Kaydet</button>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    <!-- Firebase ve Uygulama Kodları -->
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
     <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        h1, h3, h4 {
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            max-width: 600px;
-            margin: 0 auto 15px auto;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="number"], textarea {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        input[type="file"] {
-            width: 100%;
-        }
-        #saveBtn, #addFeatureBtn {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            font-size: 1em;
-        }
-        #qrcode {
-            margin-top: 20px;
-            text-align: center;
-        }
-        #qrcode a {
-            display: block;
-            margin-top: 10px;
-            font-size: 1.2em;
-            color: blue;
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
+    <!-- XLSX.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <!-- Bootstrap JS ve Bağımlılıkları -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- XLSX.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
-    <h1>Admin Paneli</h1>
-    <div>
-        <div class="form-group">
-            <label for="productName">Ürün İsmi:</label>
-            <input type="text" id="productName" placeholder="Ürün İsmi">
-        </div>
-        <div class="form-group">
-            <label for="productPrice">Ürün Fiyatı:</label>
-            <input type="text" id="productPrice" placeholder="Ürün Fiyatı">
-        </div>
-        <div class="form-group">
-            <label for="productImages">Ürün Resimleri:</label>
-            <input type="file" id="productImages" multiple>
-        </div>
-        <div class="form-group">
-            <label for="productDescription">Ürün Açıklaması:</label>
-            <textarea id="productDescription" placeholder="Ürün Açıklaması"></textarea>
-        </div>
-        <div id="productFeatures">
-            <h3>Ürün Özellikleri</h3>
-            <div id="featuresContainer"></div>
-            <button type="button" id="addFeatureBtn">Özellik Ekle</button>
-        </div>
-        <button id="saveBtn">Kaydet ve QR Kod Oluştur</button>
-    </div>
-
-    <div id="qrcode"></div>
-
-    <!-- Firebase ve Uygulama Kodları -->
+    <!-- Uygulama JS Dosyası -->
+    <script src="app.js"></script>
     <script>
-        // Firebase yapılandırması (kendi yapılandırmanızı buraya ekleyin)
-        const firebaseConfig = {
-    apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
-    authDomain: "whatsapp-156a6.firebaseapp.com",
-    databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
-    projectId: "whatsapp-156a6",
-    storageBucket: "whatsapp-156a6.appspot.com",
-    messagingSenderId: "236478826016",
-    appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
-    measurementId: "G-0LY6WH95VM"
-  };
-
-        // Firebase'i Başlat
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const storage = firebase.storage();
-
-        // Özellik ekleme işlemi
-        let featureCount = 0;
-        document.getElementById('addFeatureBtn').addEventListener('click', addFeature);
-
-        function addFeature() {
-            featureCount++;
-            const featuresContainer = document.getElementById('featuresContainer');
-            const featureDiv = document.createElement('div');
-            featureDiv.classList.add('feature');
-            featureDiv.setAttribute('data-feature-id', featureCount);
-            featureDiv.innerHTML = `
-                <h4>Özellik ${featureCount}</h4>
-                <div class="form-group">
-                    <label for="featureCategory${featureCount}">Kategori:</label>
-                    <input type="text" id="featureCategory${featureCount}" placeholder="Kategori">
-                </div>
-                <div class="form-group">
-                    <label for="featureImage${featureCount}">Özellik Resmi:</label>
-                    <input type="file" id="featureImage${featureCount}">
-                </div>
-                <div class="form-group">
-                    <label for="featureDescription${featureCount}">Açıklama:</label>
-                    <input type="text" id="featureDescription${featureCount}" placeholder="Açıklama">
-                </div>
-            `;
-            featuresContainer.appendChild(featureDiv);
-        }
-
-        const saveBtn = document.getElementById('saveBtn');
-        saveBtn.addEventListener('click', async () => {
-            const productName = document.getElementById('productName').value.trim();
-            const productPrice = document.getElementById('productPrice').value.trim();
-            const productDescription = document.getElementById('productDescription').value.trim();
-            const productImages = document.getElementById('productImages').files;
-
-            if (productName && productPrice && productDescription) {
-                // Yeni bir ürün anahtarı oluştur
-                const newProductKey = database.ref().child('products').push().key;
-
-                // Veriyi hazırlayın
-                const productData = {
-                    productName: productName,
-                    productPrice: productPrice,
-                    productDescription: productDescription,
-                    images: [],
-                    features: []
-                };
-
-                try {
-                    // Ürün resimlerini yükle
-                    for (let i = 0; i < productImages.length; i++) {
-                        const imageFile = productImages[i];
-                        const storageRef = storage.ref().child(`products/${newProductKey}/images/${imageFile.name}`);
-                        const snapshot = await storageRef.put(imageFile);
-                        const downloadURL = await snapshot.ref.getDownloadURL();
-                        productData.images.push(downloadURL);
-                    }
-
-                    // Özellikleri topla
-                    const features = document.querySelectorAll('.feature');
-                    for (let i = 0; i < features.length; i++) {
-                        const featureDiv = features[i];
-                        const featureId = featureDiv.getAttribute('data-feature-id');
-                        const category = featureDiv.querySelector(`#featureCategory${featureId}`).value.trim();
-                        const description = featureDiv.querySelector(`#featureDescription${featureId}`).value.trim();
-                        const featureImageFile = featureDiv.querySelector(`#featureImage${featureId}`).files[0];
-
-                        let featureImageURL = '';
-                        if (featureImageFile) {
-                            const storageRef = storage.ref().child(`products/${newProductKey}/features/${featureImageFile.name}`);
-                            const snapshot = await storageRef.put(featureImageFile);
-                            featureImageURL = await snapshot.ref.getDownloadURL();
-                        }
-
-                        productData.features.push({
-                            category: category,
-                            description: description,
-                            image: featureImageURL
-                        });
-                    }
-
-                    // Veriyi Realtime Database'e ekle
-                    const updates = {};
-                    updates['/products/' + newProductKey] = productData;
-
-                    await database.ref().update(updates);
-                    alert('Kayıt başarılı!');
-
-                    // QR kodu oluştur
-                    const qrData = `https://erkayayazilim.github.io/qrcode/user.html?id=${newProductKey}`;
-
-                    const qrcodeElement = document.getElementById('qrcode');
-                    qrcodeElement.innerHTML = ''; // Önceki QR kodunu temizle
-
-                    new QRCode(qrcodeElement, {
-                        text: qrData,
-                        width: 256,
-                        height: 256,
-                    });
-
-                    // QR kodunu indirilebilir yap
-                    setTimeout(() => {
-                        const canvas = qrcodeElement.querySelector('canvas');
-                        const imgData = canvas.toDataURL('image/png');
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = imgData;
-                        downloadLink.download = 'qrcode.png';
-                        downloadLink.textContent = 'QR Kodu İndir';
-                        qrcodeElement.appendChild(downloadLink);
-                    }, 500);
-
-                } catch (error) {
-                    console.error('Hata:', error);
-                }
-
-            } else {
-                alert('Lütfen tüm alanları doldurun.');
+        // Admin Paneli Giriş Kontrolü
+        firebase.auth().onAuthStateChanged((user) => {
+            if (!user) {
+                // Kullanıcı giriş yapmamışsa, giriş sayfasına yönlendir
+                window.location.href = 'login.html'; // Giriş sayfanızın doğru URL'sini yazın
             }
         });
     </script>
-
-    <script>
-        
-    </script>
+        <script>
+            // Etiket İndirme Fonksiyonu
+            document.getElementById('downloadLabelBtn').addEventListener('click', downloadLabelAsPNG);
+    
+            function downloadLabelAsPNG() {
+                const labelElement = document.getElementById('labelElement');
+                html2canvas(labelElement).then(canvas => {
+                    const dataURL = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.href = dataURL;
+                    link.download = 'etiket.png';
+                    link.click();
+                });
+            }
+    
+            // Admin Giriş Kontrolü
+            firebase.auth().onAuthStateChanged((user) => {
+                if (!user) {
+                    window.location.href = 'login.html';
+                }
+            });
+        </script>
 </body>
 </html>

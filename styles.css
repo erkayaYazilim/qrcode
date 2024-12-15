@@ -1,0 +1,360 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5em;
+    letter-spacing: 1px;
+}
+.navbar .nav-link {
+    color: #ffffff;
+    margin-right: 20px;
+    transition: color 0.3s;
+}
+.navbar .nav-link:hover {
+    color: #adb5bd;
+}
+
+/* Başlıklar */
+h1, h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #212529;
+    font-weight: 700;
+}
+h2, h4 {
+    color: #212529;
+    font-weight: 600;
+}
+
+/* Butonlar */
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Form Etiketleri */
+.form-label {
+    font-weight: 600;
+    color: #212529;
+}
+
+/* Progress Bar */
+.progress {
+    height: 1.5rem;
+    border-radius: 0.25rem;
+}
+.progress-bar {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #fff;
+    text-align: center;
+    background-color: #007bff;
+}
+
+/* Feature Bölümü */
+.feature {
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.feature h5 {
+    margin-top: 0;
+    font-weight: 600;
+    color: #212529;
+}
+.remove-feature-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: transparent;
+    border: none;
+    color: #dc3545;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.remove-feature-btn:hover {
+    color: #a71d2a;
+}
+
+/* Tablo Stil Ayarları */
+.table td, .table th {
+    vertical-align: middle;
+}
+.table th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+}
+.action-buttons button {
+    margin-right: 5px;
+}
+
+/* Telefon Önizleme */
+.phone-preview {
+    width: 320px;
+    height: 640px;
+    border: 16px #333 solid;
+    border-top: 60px #333 solid;
+    border-bottom: 60px #333 solid;
+    border-radius: 36px;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.phone-screen {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #f0f2f5;
+}
+
+/* Header ve Footer */
+.header {
+    background-color: #343a40;
+    padding: 20px 30px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .logo {
+    max-height: 50px;
+    transition: transform 0.3s;
+}
+.header .logo:hover {
+    transform: scale(1.1);
+}
+.header .contact-info p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+.footer {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 30px;
+    border-top: 1px solid #dee2e6;
+}
+.footer .contact-info p {
+    margin: 5px 0;
+}
+
+/* Carousel */
+.carousel-item img {
+    max-height: 220px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+.carousel-item img:hover {
+    transform: scale(1.05);
+}
+
+/* Ürün Detayları */
+.product-details h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: center;
+    color: #212529;
+}
+.price {
+    font-size: 1.4rem;
+    color: #28a745;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center;
+}
+.price del {
+    color: #6c757d;
+    font-size: 1rem;
+}
+.features th {
+    width: 40%;
+}
+.features th, .features td {
+    font-size: 0.9rem;
+}
+.description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #495057;
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+.product-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+.product-link a:hover {
+    text-decoration: underline;
+}
+.social-share a {
+    margin: 0 10px;
+    font-size: 1.8rem;
+    color: #495057;
+    transition: color 0.3s;
+}
+.social-share a:hover {
+    color: #007bff;
+}
+
+/* Profesyonel Etiket Tasarımı */
+.custom-label {
+    width: 1427px;
+    height: 945px;
+    background: #ffffff;
+    border: 2px solid #000;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.label-header {
+    background: #000000;
+    color: #ffffff;
+    text-align: center;
+    padding: 30px 0;
+    font-size: 60px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    box-sizing: border-box;
+}
+.label-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    box-sizing: border-box;
+    background: #fff;
+}
+.product-info {
+    text-align: left;
+    margin-bottom: 40px;
+}
+.product-name {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 20px;
+}
+.product-code {
+    font-size: 60px;
+    margin: 0;
+    font-weight: 500;
+}
+.horizontal-line {
+    width: 100%;
+    height: 5px;
+    background: #000;
+    margin: 40px 0;
+}
+.bottom-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1;
+}
+.price-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.sale-price {
+    font-size: 100px;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.list-price {
+    font-size: 80px;
+    color: #555;
+    text-decoration: line-through;
+}
+.qr-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+.qr-code {
+    width: 400px;
+    height: 400px;
+    border: 2px solid #000;
+    box-sizing: border-box;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .phone-preview {
+        width: 100%;
+        height: auto;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+    .navbar .nav-link {
+        margin-right: 10px;
+    }
+    .header, .footer {
+        text-align: center;
+        flex-direction: column;
+    }
+    .header .contact-info {
+        margin-top: 10px;
+    }
+    .feature {
+        padding: 15px;
+    }
+    .btn {
+        width: 100%;
+        padding: 12px 0;
+    }
+}
+
+/* Yazdırma Ayarları */
+@page {
+    size: 1427px 945px;
+    margin: 0;
+}
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .custom-label {
+        border: none;
+    }
+}

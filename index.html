@@ -2,225 +2,194 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Paneli</title>
+    <title>Erkaya Yazılım - Giriş Yap</title>
+
+    <link rel="icon" href="erkayalogo.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
-    <!-- QRCode.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS ve İkonlar -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Özel Stil Dosyası -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
         }
-        h1, h3, h4 {
+
+        /* Arka plan animasyonu */
+        .background {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: linear-gradient(0deg, #007bff, #6cace4, #007bff);
+            background-size: 200% 200%;
+            animation: gradientAnimation 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Giriş formu stili */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            max-width: 600px;
-            margin: 0 auto 15px auto;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="number"], textarea {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        input[type="file"] {
+            max-width: 400px;
             width: 100%;
         }
-        #saveBtn, #addFeatureBtn {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            font-size: 1em;
+
+        .login-card h2 {
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #007bff;
         }
-        #qrcode {
+
+        .login-card .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .login-card .btn-primary {
+            background: #007bff;
+            border: none;
+            font-weight: 600;
             margin-top: 20px;
-            text-align: center;
         }
-        #qrcode a {
-            display: block;
-            margin-top: 10px;
-            font-size: 1.2em;
-            color: blue;
+
+        .login-card .btn-primary:hover {
+            background: #6cace4;
+        }
+
+        .login-card a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-card a:hover {
             text-decoration: underline;
         }
+
+        /* Erkaya Yazılım logosu ve başlığı */
+        .brand {
+            margin-bottom: 40px;
+        }
+
+        .brand img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .brand h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #000000;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
     </style>
+    <!-- Firebase App ve Authentication -->
+    <!-- Firebase App (Zorunlu) -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
 </head>
 <body>
 
-    <h1>Admin Paneli</h1>
-    <div>
-        <div class="form-group">
-            <label for="productName">Ürün İsmi:</label>
-            <input type="text" id="productName" placeholder="Ürün İsmi">
+    <!-- Arka Plan Animasyonu -->
+    <div class="background"></div>
+
+    <!-- Giriş Formu -->
+    <div class="login-container">
+        <div class="login-card">
+            <div class="brand">
+                <!-- İsteğe bağlı logo ekleyebilirsiniz -->
+                <img src="erkayalogo.png" alt="Erkaya Yazılım" style="border-radius: 15px; width: 100px;"> <!-- Kenarlar yuvarlatıldı -->
+                <h1>Erkaya Yazılım</h1>
+            </div>
+            <h2>Giriş Yap</h2>
+            <div class="mb-3 text-start">
+                <label for="email" class="form-label">E-posta</label>
+                <input type="email" class="form-control" id="email" placeholder="E-posta adresiniz" required>
+            </div>
+            <div class="mb-3 text-start">
+                <label for="password" class="form-label">Şifre</label>
+                <input type="password" class="form-control" id="password" placeholder="Şifreniz" required>
+            </div>
+            <button class="btn btn-primary w-100" id="loginBtn">Giriş Yap</button>
+            <div class="mt-3">
+                <p>Aboneliğiniz yok mu?</p>
+                <a href="#" id="contactLink">İletişime Geçin</a>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="productPrice">Ürün Fiyatı:</label>
-            <input type="text" id="productPrice" placeholder="Ürün Fiyatı">
-        </div>
-        <div class="form-group">
-            <label for="productImages">Ürün Resimleri:</label>
-            <input type="file" id="productImages" multiple>
-        </div>
-        <div class="form-group">
-            <label for="productDescription">Ürün Açıklaması:</label>
-            <textarea id="productDescription" placeholder="Ürün Açıklaması"></textarea>
-        </div>
-        <div id="productFeatures">
-            <h3>Ürün Özellikleri</h3>
-            <div id="featuresContainer"></div>
-            <button type="button" id="addFeatureBtn">Özellik Ekle</button>
-        </div>
-        <button id="saveBtn">Kaydet ve QR Kod Oluştur</button>
     </div>
+    
 
-    <div id="qrcode"></div>
-
-    <!-- Firebase ve Uygulama Kodları -->
+    <!-- Firebase ve Uygulama JS Kodları -->
+    <!-- Firebase Config ve Uygulama JS -->
     <script>
-        // Firebase yapılandırması (kendi yapılandırmanızı buraya ekleyin)
+        // Firebase yapılandırması
         const firebaseConfig = {
-    apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
-    authDomain: "whatsapp-156a6.firebaseapp.com",
-    databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
-    projectId: "whatsapp-156a6",
-    storageBucket: "whatsapp-156a6.appspot.com",
-    messagingSenderId: "236478826016",
-    appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
-    measurementId: "G-0LY6WH95VM"
-  };
-
-        // Firebase'i Başlat
+            apiKey: "AIzaSyDg0qFZV7wh6KfocHfw2JRC-Idv8yAaSic",
+            authDomain: "whatsapp-156a6.firebaseapp.com",
+            databaseURL: "https://whatsapp-156a6-default-rtdb.firebaseio.com",
+            projectId: "whatsapp-156a6",
+            storageBucket: "whatsapp-156a6.appspot.com",
+            messagingSenderId: "236478826016",
+            appId: "1:236478826016:web:34a9fa5b51c69f63045e45",
+            measurementId: "G-0LY6WH95VM"
+        };
+        // Firebase'i başlat
         firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const storage = firebase.storage();
 
-        // Özellik ekleme işlemi
-        let featureCount = 0;
-        document.getElementById('addFeatureBtn').addEventListener('click', addFeature);
+        // Giriş yapma işlemi
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        function addFeature() {
-            featureCount++;
-            const featuresContainer = document.getElementById('featuresContainer');
-            const featureDiv = document.createElement('div');
-            featureDiv.classList.add('feature');
-            featureDiv.setAttribute('data-feature-id', featureCount);
-            featureDiv.innerHTML = `
-                <h4>Özellik ${featureCount}</h4>
-                <div class="form-group">
-                    <label for="featureCategory${featureCount}">Kategori:</label>
-                    <input type="text" id="featureCategory${featureCount}" placeholder="Kategori">
-                </div>
-                <div class="form-group">
-                    <label for="featureImage${featureCount}">Özellik Resmi:</label>
-                    <input type="file" id="featureImage${featureCount}">
-                </div>
-                <div class="form-group">
-                    <label for="featureDescription${featureCount}">Açıklama:</label>
-                    <input type="text" id="featureDescription${featureCount}" placeholder="Açıklama">
-                </div>
-            `;
-            featuresContainer.appendChild(featureDiv);
-        }
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Giriş başarılı, index.html sayfasına yönlendir
+                window.location.href = 'anasayfa.html';
+            })
+            .catch((error) => {
+                console.error('Giriş hatası:', error);
+                alert('Giriş başarısız. Lütfen bilgilerinizi kontrol edin veya abonelik için iletişime geçin.');
+            });
+        });
 
-        const saveBtn = document.getElementById('saveBtn');
-        saveBtn.addEventListener('click', async () => {
-            const productName = document.getElementById('productName').value.trim();
-            const productPrice = document.getElementById('productPrice').value.trim();
-            const productDescription = document.getElementById('productDescription').value.trim();
-            const productImages = document.getElementById('productImages').files;
-
-            if (productName && productPrice && productDescription) {
-                // Yeni bir ürün anahtarı oluştur
-                const newProductKey = database.ref().child('products').push().key;
-
-                // Veriyi hazırlayın
-                const productData = {
-                    productName: productName,
-                    productPrice: productPrice,
-                    productDescription: productDescription,
-                    images: [],
-                    features: []
-                };
-
-                try {
-                    // Ürün resimlerini yükle
-                    for (let i = 0; i < productImages.length; i++) {
-                        const imageFile = productImages[i];
-                        const storageRef = storage.ref().child(`products/${newProductKey}/images/${imageFile.name}`);
-                        const snapshot = await storageRef.put(imageFile);
-                        const downloadURL = await snapshot.ref.getDownloadURL();
-                        productData.images.push(downloadURL);
-                    }
-
-                    // Özellikleri topla
-                    const features = document.querySelectorAll('.feature');
-                    for (let i = 0; i < features.length; i++) {
-                        const featureDiv = features[i];
-                        const featureId = featureDiv.getAttribute('data-feature-id');
-                        const category = featureDiv.querySelector(`#featureCategory${featureId}`).value.trim();
-                        const description = featureDiv.querySelector(`#featureDescription${featureId}`).value.trim();
-                        const featureImageFile = featureDiv.querySelector(`#featureImage${featureId}`).files[0];
-
-                        let featureImageURL = '';
-                        if (featureImageFile) {
-                            const storageRef = storage.ref().child(`products/${newProductKey}/features/${featureImageFile.name}`);
-                            const snapshot = await storageRef.put(featureImageFile);
-                            featureImageURL = await snapshot.ref.getDownloadURL();
-                        }
-
-                        productData.features.push({
-                            category: category,
-                            description: description,
-                            image: featureImageURL
-                        });
-                    }
-
-                    // Veriyi Realtime Database'e ekle
-                    const updates = {};
-                    updates['/products/' + newProductKey] = productData;
-
-                    await database.ref().update(updates);
-                    alert('Kayıt başarılı!');
-
-                    // QR kodu oluştur
-                    const qrData = `https://erkayayazilim.github.io/qrcode/user.html?id=${newProductKey}`;
-                    const qrcodeElement = document.getElementById('qrcode');
-                    qrcodeElement.innerHTML = ''; // Önceki QR kodunu temizle
-
-                    new QRCode(qrcodeElement, {
-                        text: qrData,
-                        width: 256,
-                        height: 256,
-                    });
-
-                    // QR kodunu indirilebilir yap
-                    setTimeout(() => {
-                        const canvas = qrcodeElement.querySelector('canvas');
-                        const imgData = canvas.toDataURL('image/png');
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = imgData;
-                        downloadLink.download = 'qrcode.png';
-                        downloadLink.textContent = 'QR Kodu İndir';
-                        qrcodeElement.appendChild(downloadLink);
-                    }, 500);
-
-                } catch (error) {
-                    console.error('Hata:', error);
-                }
-
-            } else {
-                alert('Lütfen tüm alanları doldurun.');
-            }
+        // Abonelik için iletişim linki
+        document.getElementById('contactLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Abonelik için lütfen emreerkaya112@gmail.com adresine e-posta gönderin.');
         });
     </script>
+    <!-- Bootstrap JS ve Bağımlılıkları -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

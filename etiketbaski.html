@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatay Etiket Baskı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .etiket {
+            width: 6cm;
+            height: 4cm;
+            border: 1px solid black;
+            font-size: 12px;
+            position: relative;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .etiket .title {
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .etiket .content {
+            margin: 2px 0;
+        }
+
+        .etiket .qr {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Baskıda yalnızca etiketi göster ve içeriğini görünür yap */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .etiket, .etiket * {
+                visibility: visible;
+            }
+            .etiket {
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: auto;
+            }
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="etiket">
+        <div class="title">TATARLI SERAMİK</div>
+        <div class="content">S01-xxxxxxxxxx (kod)</div>
+        <div class="content">60x120 xxxxxx (ürün adı)</div>
+        <div class="content"><strong>Satış Fiyat:</strong> 00,00 TL</div>
+        <div class="content">KDV Dahil</div>
+        <div class="content">Liste Fiyatı: 000 TL + KDV</div>
+        <div class="qr">QR</div>
+    </div>
+    <button onclick="window.print()">Yazdır</button>
+</body>
+</html>

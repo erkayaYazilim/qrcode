@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Erkaya Yazılım Ofisi - Ürün Yönetim Sistemi</title>
+
+    <link rel="icon" href="erkayalogo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS ve İkonlar -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Özel Stil Dosyası -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="erkayalogo.png" alt="Logo" style="border-radius: 3px; width: 100px; width: 40px; height: 40px; margin-right: 5px;">
+                Erkaya Yazılım Ofisi
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Anasayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Hizmetlerimiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">İletişim</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white" href="admin.html">Admin Paneli</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner Bölümü -->
+    <section class="banner d-flex align-items-center text-center text-white">
+        <div class="container">
+            <h1 class="display-4">Ürün Yönetim ve QR Kod Sistemi</h1>
+            <p class="lead">Erkaya Yazılım Ofisi tarafından sunulan profesyonel ürün yönetim sistemi ile ürünlerinizi kolayca yönetin ve QR kodlarıyla müşterilerinize sunun.</p>
+            <a href="admin.html" class="btn btn-primary btn-lg mt-3">Başlayın</a>
+        </div>
+    </section>
+
+    <!-- Hizmetlerimiz Bölümü -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Hizmetlerimiz</h2>
+            <div class="row">
+                <!-- Hizmet 1 -->
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-cogs fa-3x mb-3"></i>
+                    <h4>Ürün Yönetimi</h4>
+                    <p>Kolay ve etkili ürün yönetimi ile ürünlerinizi düzenleyin, güncelleyin ve yönetin.</p>
+                </div>
+                <!-- Hizmet 2 -->
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-qrcode fa-3x mb-3"></i>
+                    <h4>QR Kod Oluşturma</h4>
+                    <p>Ürünleriniz için otomatik olarak QR kodları oluşturun ve müşterilerinizle paylaşın.</p>
+                </div>
+                <!-- Hizmet 3 -->
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-chart-line fa-3x mb-3"></i>
+                    <h4>Analiz ve Raporlama</h4>
+                    <p>Ürün performansınızı takip edin ve detaylı raporlarla işinizi büyütün.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hakkımızda Bölümü -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Hakkımızda</h2>
+            <p class="text-center">Erkaya Yazılım Ofisi olarak, işletmelerin dijital dönüşümüne katkı sağlayan yenilikçi yazılım çözümleri sunuyoruz. Müşteri odaklı yaklaşımımızla, ihtiyaçlarınıza özel projeler geliştiriyoruz.</p>
+        </div>
+    </section>
+
+    <!-- İletişim Bölümü -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">İletişim</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Erkaya Yazılım Ofisi</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Adres: Örnek Mahallesi, Yazılım Sokak No:10, İstanbul</p>
+                    <p><i class="fas fa-phone-alt"></i> Telefon: +90 123 456 78 90</p>
+                    <p><i class="fas fa-envelope"></i> E-posta: info@erkayayazilim.com</p>
+                </div>
+                <div class="col-md-6">
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">İsim</label>
+                            <input type="text" class="form-control" id="name" placeholder="İsminiz">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-posta</label>
+                            <input type="email" class="form-control" id="email" placeholder="E-posta adresiniz">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Mesaj</label>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Mesajınız"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Bölümü -->
+    <footer class="py-4 bg-dark text-white text-center">
+        <div class="container">
+            <p>© 2023 Erkaya Yazılım Ofisi. Tüm hakları saklıdır.</p>
+            <p>
+                <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS ve Bağımlılıkları -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
